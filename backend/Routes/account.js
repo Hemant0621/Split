@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
         })
 
         return res.send({
-            user
+            message : "item added successfully"
         })
     } catch (error) {
         console.log(error)
