@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const zod = require("zod");
-const { User, Party, Account } = require("../db");
+const { User } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const { authMiddleware } = require("../middleware");
@@ -122,11 +122,9 @@ router.put("/", authMiddleware, async (req, res) => {
 })
 
 router.get('/', authMiddleware, async (req, res) => {
-
     try {
-        const user = User.findOne({
-            userId: req.userId
-        })
+        
+        const user = await User.findById(req.userId)
 
         res.send({
             user
