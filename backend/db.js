@@ -12,12 +12,15 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         minLength: 3,
-        maxLength: 30
+    },
+    username:{
+        type:String,
+        required: true,
+        trim:true
     },
     password: {
         type: String,
         required: true,
-        minLength: 6
     },
     firstName: {
         type: String,
@@ -53,10 +56,36 @@ const PartySchema = new mongoose.Schema({
     }
 })
 
+const AccountSchema = new mongoose.Schema({
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        require : true
+    },
+    heading:{
+        type:String,
+        require:true
+    },
+    type:{
+        type:String,
+        require:true
+    },
+    price : {
+        type: mongoose.Types.Decimal128,
+        require : true
+    },
+    date : {
+        type: Date,
+        require:true
+    }
+})
+
 const User = mongoose.model('User', userSchema); 
 const Party = mongoose.model('Party', PartySchema);
+const Account = mongoose.model('Account', AccountSchema);
 
 module.exports = {
 	User,   
-    Party
+    Party,
+    Account
 };

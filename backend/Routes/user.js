@@ -29,12 +29,23 @@ router.post("/signup", async (req, res) => {
 
     if (existingUser) {
         return res.status(411).json({
-            message: "Email already taken/Incorrect inputs"
+            message: "Email already taken"
+        })
+    }
+
+    const usernameexist = await User.findOne({
+        username:req.body.Email
+    })
+
+    if(usernameexist){
+        return res.status(411).json({
+            message : "username already exist"
         })
     }
 
     const user = await User.create({
         Email: req.body.Email,
+        username: req.body.username,
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
