@@ -10,7 +10,12 @@ function Sidebar() {
                     <a href="/Trip"><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10]'>Trips</h1></a>
                     <a href=""><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10]'>profile</h1></a>
                 </div>
-                <div className='flex gap-3 items-center px-5 py-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10] cursor-pointer'>
+                <div className='flex gap-3 items-center px-5 py-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10] cursor-pointer'
+                    onClick={() => {
+                        location.href = '/signin'
+                        localStorage.removeItem('token')
+                    }}
+                >
                     <img className='h-4 dark:invert' src="/logout.png " alt="" />
                     <h1 className='font-bold  text-xl '>Logout</h1>
                 </div>
