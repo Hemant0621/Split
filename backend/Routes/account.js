@@ -50,8 +50,9 @@ router.post('/amount', async (req, res) => {
             "$gt": start,
             "$lt": end
         }
-    }, "price -_id")
-
+    })
+    console.log(start)
+    console.log(end)
     var total = 0
 
     amount.map((price) => {

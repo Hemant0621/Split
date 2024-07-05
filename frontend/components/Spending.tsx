@@ -15,7 +15,7 @@ function Spending() {
         async function result() {
             const total = await axios.post("https://split-backend-five.vercel.app/api/account/amount")
             const month = await axios.post("https://split-backend-five.vercel.app/api/account/amount", {
-                start : startOfCurrentMonth,
+                start : startOfLastMonth,
                 end : endOfLastMonth
             }, {
                 headers: {
@@ -24,6 +24,7 @@ function Spending() {
             })
             settotal(total.data.total)
             setmonth(month.data.total)
+            console.log(month.data)
         }
 
         result()
