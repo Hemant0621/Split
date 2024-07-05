@@ -125,7 +125,7 @@ router.get('/', authMiddleware, async (req, res) => {
 
     try {
         const user = User.findOne({
-            userId: req.UserId
+            userId: req.userId
         })
 
         res.send({

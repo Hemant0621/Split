@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 type Dark = {
@@ -11,6 +12,20 @@ function Navbar({ dark, setdark }: Dark) {
     function handlemode() {
         setdark(!dark)
     }
+
+    useEffect(()=>{
+        async function result() {
+            const response = await axios.get("https://split-backend-five.vercel.app/api/user",{
+                headers : {
+                    authorization : `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            console.log(response)
+        }
+
+        result()
+    },[])
 
     return (
         <div className='col-span-10 bg-[#f3aa4e] dark:bg-[#111820] dark:text-white p-5'>
