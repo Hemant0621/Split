@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/amount', async (req, res) => {
+router.post('/amount', async (req, res) => {
 
     const start =  req.body.start || new Date(new Date().getDate());
     const end = req.body.end ||  new Date().toISOString();
