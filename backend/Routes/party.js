@@ -9,7 +9,7 @@ router.get('/', authMiddleware, async (req, res) => {
 
     try {
 
-        const party = await Party.find({
+        const party = await Party.findOne({
             userId: req.userId
         })
 

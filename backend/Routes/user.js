@@ -128,18 +128,8 @@ router.get('/', authMiddleware, async (req, res) => {
             userId: req.UserId
         })
 
-        const party = await Party.findOne({
-            userId: req.UserId
-        })
-
-        const account = await Account.findOne({
-            userId: req.UserId
-        })
-
         res.send({
-            user,
-            party,
-            account
+            user
         })
     } catch (error) {
         res.send({

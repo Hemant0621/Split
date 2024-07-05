@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
 
     try {
-        const user = await Account.find({
+        const user = await Account.findOne({
             userId: req.userId
         })
 
