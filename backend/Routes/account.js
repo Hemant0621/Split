@@ -59,7 +59,8 @@ router.post('/amount', async (req, res) => {
     })
 
     return res.send({
-        total
+        total,
+        amount
     })
 
 })
