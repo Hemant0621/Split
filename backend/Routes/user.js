@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const zod = require("zod");
-const { User } = require("../db");
+const { User, Party, Account } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const { authMiddleware } = require("../middleware");
@@ -128,8 +128,18 @@ router.get('/', authMiddleware, async (req, res) => {
             userId: req.UserId
         })
 
+        const party = await Party.findOne({
+            userId: req.UserId
+        })
+
+        const account = await Account.findOne({
+            userId: req.UserId
+        })
+
         res.send({
-            user
+            user,
+            party,
+            account
         })
     } catch (error) {
         res.send({
