@@ -24,7 +24,7 @@ function Additem({ setadditem }: { setadditem: Function }) {
 
     return (
         <div className=' absolute left-0 top-0 w-screen h-screen flex items-center justify-center bg-opacity-80 bg-slate-500 z-10 border border-red-700'>
-            {show?<Message Heading={"Successfull"} message={"item added Successfully"} />:""}
+            {show ? <Message Heading={"Successfull"} message={"item added Successfully"} /> : ""}
             <button className='absolute top-10 right-10' onClick={handleclose}>
                 <img className='w-12' src="/cancel.png" alt="" />
             </button>
@@ -50,10 +50,6 @@ function Additem({ setadditem }: { setadditem: Function }) {
                     <div className='w-1/2'>
                         <label htmlFor="Price" className="block text-black dark:text-white text-3xl text-left w-full font-bold mb-2">Price</label>
                         <input type='number' className=' w-full p-2 border border-black rounded-lg' value={price} placeholder='Price' onChange={(e) => setprice(e.target.value)} />
-                    </div>
-                    <div className='w-1/2'>
-                        <label htmlFor="Price" className="block text-black dark:text-white text-3xl text-left w-full font-bold mb-2">Price</label>
-                        <input type='date' className=' w-full p-2 border border-black rounded-lg' value={price} placeholder='Price' onChange={(e) => console.log(e.target.value)} />
                     </div>
 
                 </div>

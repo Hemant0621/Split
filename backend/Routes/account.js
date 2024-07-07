@@ -72,7 +72,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
         const type = req.body.type || '';
 
 
-        if (type == 'month') {
+        if (type == 'custom') {
 
             const startDate = req.body.startdate;
             const endDate = req.body.enddate;
