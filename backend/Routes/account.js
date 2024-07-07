@@ -111,18 +111,18 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             var data = Array(numberOfDays).fill(0)
             var i = 0
             while (currentDate <= endDate) {
-                const day = String(currentDate.getDate()).padStart(2, '0'); 
-                const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
+                const day = String(currentDate.getDate()).padStart(2, '0');
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
                 daysArray.push(`${month}-${day}`);
-                currentDate.setDate(currentDate.getDate() + 1); 
+                currentDate.setDate(currentDate.getDate() + 1);
             }
 
 
             expenses.map((expense) => {
-                const date = new Date(`${expense._id.year}-${String(expense._id.month).padStart(2,'0')}-${String(expense._id.day).padStart(2,'0')}`)
+                const date = new Date(`${expense._id.year}-${String(expense._id.month).padStart(2, '0')}-${String(expense._id.day).padStart(2, '0')}`)
                 const count = Math.ceil((date - startDate + 1) / (1000 * 60 * 60 * 24))
                 console.log(count)
-                data[count-1] = parseInt(expense.total)
+                data[count - 1] = parseInt(expense.total)
             })
 
             res.json({
@@ -136,21 +136,25 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             const expenses = await Account.aggregate([
                 {
                     $group: {
-                        _id: { $month: "$date" }, // Group by month
-                        total: { $sum: "$price" } // Sum the amount for each month
+                        _id: { $month: "$date" }, 
+                        total: { $sum: "$price" } 
                     }
                 },
                 {
-                    $sort: { _id: 1 } // Sort by month, if needed
+                    $sort: { _id: 1 } 
                 }
             ]);
 
+            const daysArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             var data = Array(12).fill(0)
             expenses.map((expense) => {
                 data[expense._id - 1] = parseInt(expense.total)
             })
 
-            res.json(data);
+            res.json({
+                data,
+                daysArray
+            });
         }
 
 
