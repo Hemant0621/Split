@@ -1,11 +1,10 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
 const { Account } = require('../db');
-const { date } = require('zod');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware ,async (req, res) => {
 
     try {
         const user = await Account.findOne({
@@ -20,7 +19,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware ,async (req, res) => {
     try {
 
         const body = req.body
@@ -40,7 +39,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.post('/amount', async (req, res) => {
+router.post('/amount', authMiddleware ,async (req, res) => {
 
     const start =  req.body.start || new Date(new Date().getDate());
     const end = req.body.end ||  new Date().toISOString();
@@ -64,6 +63,32 @@ router.post('/amount', async (req, res) => {
         amount
     })
 
+})
+
+router.get('/monthly', authMiddleware ,async (req , res )=> {
+
+    try {
+        const expenses = await Account.aggregate([
+            {
+                $group: {
+                    _id: { $month: "$date" },
+                    total: { $sum: "$price" }
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ]);
+
+        var data = Array(12).fill(0)
+        expenses.map((expense)=>{
+            data[expense._id-1]=parseInt(expense.total)
+        })
+
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 })
 
 module.exports = router

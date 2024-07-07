@@ -1,10 +1,14 @@
+import { loadingState } from '@/hooks/darkmode'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
 
 function Spending() {
 
     const [total, settotal] = useState(0)
     const [month, setmonth] = useState(-1)
+
+    const [loading, setloading] = useRecoilState(loadingState)
 
     useEffect(() => {
 
@@ -24,15 +28,19 @@ function Spending() {
             })
             settotal(total.data.total)
             setmonth(month.data.total)
-            console.log(month.data)
+            setloading(false)
         }
 
         result()
 
     }, [])
 
+    if(loading){
+        return null
+    }
+
     return (
-        <div className='grid grid-cols-12 h-1/5 gap-10 w-full '>
+        <div className='grid grid-cols-12 gap-10 w-full '>
             <div className='col-span-4 bg-white dark:bg-[#353148] h-full relative rounded-3xl flex items-center px-5'>
                 <div className='w-1/4  bg-[#27d095] rounded-lg p-5'>
                     <img src="/spending.png" alt="" />

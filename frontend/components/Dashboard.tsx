@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Spending from './Spending'
-import Navbar from './Navbar'
+import Spendinggrapgh from './Spendinggrapgh'
+import { useRecoilState } from 'recoil'
+import { loadingState } from '@/hooks/darkmode'
 
 
 
 function Dashboard() {
+
+
     return (
-        <div className='col-span-10 p-5'>
-            <Spending/>
+        <div className='col-span-10  h-full transition-colors duration-400 ease-linear p-5'>
+            <Spending />
+            <Spendinggrapgh />
         </div>
     )
 }

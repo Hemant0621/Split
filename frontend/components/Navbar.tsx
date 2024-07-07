@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Additem from './Additem'
+import { darkModeState } from '@/hooks/darkmode'
+import { useRecoilState } from 'recoil'
 
 type Dark = {
     dark: boolean,
@@ -8,14 +10,16 @@ type Dark = {
 }
 
 
-function Navbar({ dark, setdark }: Dark) {
+function Navbar() {
 
     const [username, setusername] = useState('')
     const [additem , setadditem ] = useState(false)
 
-    function handlemode() {
-        setdark(!dark)
-    }
+    const [dark, setDark] = useRecoilState(darkModeState);
+
+    const toggleDarkMode = () => {
+        setDark(!dark)
+    };
 
     useEffect(() => {
         async function result() {
@@ -31,7 +35,7 @@ function Navbar({ dark, setdark }: Dark) {
     }, [])
 
     return (
-        <div className='col-span-10 bg-[#f3aa4e] dark:bg-[#111820] dark:text-white p-5'>
+        <div className='col-span-10 bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white p-5'>
             {additem?<Additem setadditem={setadditem} />:''}
             <div className='w-full flex justify-between p-5'>
                 <div className=' flex gap-16 items-center '>
@@ -59,7 +63,7 @@ function Navbar({ dark, setdark }: Dark) {
                     <img className='rounded-full w-14 transition-transform transform hover:scale-110 cursor-pointer' src='/student.gif' alt='' />
                     <div className=' font-bold text-mono text-2xl'>{username}</div>
                     <img className='w-10 cursor-pointer' src={!dark ? "/night-mode.png" : "/brightness.png"} alt=''
-                        onClick={handlemode}
+                        onClick={toggleDarkMode}
                     />
                 </div>
             </div>
