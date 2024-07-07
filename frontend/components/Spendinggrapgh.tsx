@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
+import axios from 'axios';
 import { darkModeState, loadingState } from '@/hooks/darkmode';
 import { useRecoilState } from 'recoil';
 
@@ -7,18 +8,39 @@ function Spendinggraph() {
     const chartRef = useRef(null);
 
     const [dark, setDark] = useRecoilState(darkModeState);
-    const color = dark?"#ffffff":"#333"
-    const [loading, setloading] = useRecoilState(loadingState)
+    const color = dark ? "#ffffff" : "#333";
+    const [loading, setLoading] = useRecoilState(loadingState);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
-        if (chartRef.current) {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.post('https://split-backend-five.vercel.app/api/account/monthly',{} ,{
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                setData(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (chartRef.current && data.length > 0) {
             // Create the echarts instance
             var myChart = echarts.init(chartRef.current);
 
             // Draw the chart
             myChart.setOption({
                 title: {
-                    text: 'Monthly Expensise ',
+                    text: 'Monthly Expenses',
                     left: 'center',
                     textStyle: {
                         color: color,  // Title text color
@@ -28,18 +50,19 @@ function Spendinggraph() {
                     }
                 },
                 tooltip: {
-                    show:true,
+                    show: true,
                     trigger: 'axis',
-                    backgroundColor: dark?'rgb(53, 49, 72,1)':'rgb(243, 170, 78)',  // Tooltip background color
+                    backgroundColor: dark ? 'rgb(53, 49, 72,1)' : 'rgb(243, 170, 78)',  // Tooltip background color
                     textStyle: {
-                        color: 'white',  // Tooltip text color
-                        fontSize: 12,   // Tooltip font size
-                        fontFamily: 'clash' // Tooltip font family
+                        color: 'white',  
+                        fontSize: 12, 
+                        fontWeight: 'light',  
+                        fontFamily: 'clash' 
                     }
                 },
                 xAxis: {
                     type: 'category',
-                    data: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',""],
+                    data: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                     axisLine: {
                         lineStyle: {
                             color: color  // X-axis line color
@@ -69,7 +92,7 @@ function Spendinggraph() {
                         name: 'Expenses',
                         type: 'line',
                         smooth: true,
-                        data: [5, 20, 36, 10, 10, 20 , 0 ,0 ,12,23,34,15,20],
+                        data: data, // Use fetched data here
                         lineStyle: {
                             color: '#73C0DE',  // Line color
                             width: 3           // Line width
@@ -87,17 +110,15 @@ function Spendinggraph() {
                     }
                 ]
             });
-
         }
+    }, [color, data]);
 
-    }, [loading,color]);
-
-    if(loading){
+    if (loading) {
         return (
             <div className='w-full h-[82%] rounded-3xl bg-white  flex items-center justify-center'>
                 <img src='/kUTME7ABmhYg5J3psM.gif' />
             </div>
-        )
+        );
     }
 
     return (

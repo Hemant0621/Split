@@ -13,14 +13,18 @@ function Spending() {
     useEffect(() => {
 
         const today = new Date()
-        const startOfCurrentMonth:any = new Date(today.getFullYear(), today.getMonth(), 1);
+        const startOfCurrentMonth: any = new Date(today.getFullYear(), today.getMonth(), 1);
         const endOfLastMonth = new Date(startOfCurrentMonth - 1);
         const startOfLastMonth = new Date(endOfLastMonth.getFullYear(), endOfLastMonth.getMonth(), 1);
         async function result() {
-            const total = await axios.post("https://split-backend-five.vercel.app/api/account/amount")
+            const total = await axios.post("https://split-backend-five.vercel.app/api/account/amount",{}, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
             const month = await axios.post("https://split-backend-five.vercel.app/api/account/amount", {
-                start : startOfLastMonth,
-                end : endOfLastMonth
+                start: startOfLastMonth,
+                end: endOfLastMonth
             }, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
@@ -35,7 +39,7 @@ function Spending() {
 
     }, [])
 
-    if(loading){
+    if (loading) {
         return null
     }
 
