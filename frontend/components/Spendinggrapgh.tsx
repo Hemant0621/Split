@@ -16,7 +16,7 @@ function Spendinggraph() {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('https://split-backend-five.vercel.app/api/account/monthly',{} ,{
+                const response = await axios.post('https://split-backend-five.vercel.app/api/account/monthly', {}, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -54,10 +54,10 @@ function Spendinggraph() {
                     trigger: 'axis',
                     backgroundColor: dark ? 'rgb(53, 49, 72,1)' : 'rgb(243, 170, 78)',  // Tooltip background color
                     textStyle: {
-                        color: 'white',  
-                        fontSize: 12, 
-                        fontWeight: 'light',  
-                        fontFamily: 'clash' 
+                        color: 'white',
+                        fontSize: 12,
+                        fontWeight: 'light',
+                        fontFamily: 'clash'
                     }
                 },
                 xAxis: {
@@ -123,8 +123,16 @@ function Spendinggraph() {
 
     return (
         <div className='grid grid-cols-12 gap-10 '>
-            <div className=' col-span-8 py-4 h-[25rem] mt-10 bg-white  dark:bg-[#353148]  rounded-3xl '>
+            <div className='relative col-span-8 py-4 h-[25rem] mt-10 bg-white  dark:bg-[#353148]  rounded-3xl '>
                 <div ref={chartRef} className="w-full h-full" ></div>
+                <div className='absolute top-3 right-6  group text-end font-medium text-slate-400 p-1 cursor-pointer'>
+                    Lifetime
+                    <div className=' text-slate-800 shadow-md shadow-black absolute border bg-[#f3aa4e] border-red-600 w-40 flex-col gap-3 p-3 items-center -left-10 text-center rounded-lg  hidden group-hover:flex'>
+                        <h1 className='bg-white hover:bg-[#d1d1d1] rounded-lg px-4 py-2 w-36'>Year</h1>
+                        <h1 className='bg-white hover:bg-[#d1d1d1] rounded-lg px-4 py-2 w-36'>Month</h1>
+                        <h1 className='bg-white hover:bg-[#d1d1d1] rounded-lg px-4 py-2 w-36'>Custom</h1>
+                    </div>
+                </div>
             </div>
             <div className=' col-span-4 bg-white dark:bg-[#353148]   rounded-3xl mt-10'>
             </div>

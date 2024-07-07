@@ -51,6 +51,11 @@ function Additem({ setadditem }: { setadditem: Function }) {
                         <label htmlFor="Price" className="block text-black dark:text-white text-3xl text-left w-full font-bold mb-2">Price</label>
                         <input type='number' className=' w-full p-2 border border-black rounded-lg' value={price} placeholder='Price' onChange={(e) => setprice(e.target.value)} />
                     </div>
+                    <div className='w-1/2'>
+                        <label htmlFor="Price" className="block text-black dark:text-white text-3xl text-left w-full font-bold mb-2">Price</label>
+                        <input type='date' className=' w-full p-2 border border-black rounded-lg' value={price} placeholder='Price' onChange={(e) => console.log(e.target.value)} />
+                    </div>
+
                 </div>
                 <div className='w-2/3 flex justify-center mt-10'>
                     <button style={{ boxShadow: 'inset 0 2px 4px 0 rgb(2 6 23 / 0.3), inset 0 -2px 4px 0 rgb(203 213 225)' }} className=" text-black  inline-flex cursor-pointer items-center gap-1 rounded border border-slate-600 bg-gradient-to-b from-slate-50 to-slate-200 px-4 py-2 font-semibold hover:opacity-90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-500 focus-visible:ring-offset-2 active:opacity-100"
