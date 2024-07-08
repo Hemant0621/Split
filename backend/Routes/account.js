@@ -74,8 +74,8 @@ router.post('/monthly', authMiddleware, async (req, res) => {
 
         if (type == 'custom') {
 
-            const startDate = req.body.startdate;
-            const endDate = req.body.enddate;
+            const startDate = new Date(req.body.startdate);
+            const endDate = new Date(req.body.enddate);
 
             const expenses = await Account.aggregate([
                 {
