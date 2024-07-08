@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { loadingState } from './darkmode';
 
-const useFetchData = (type : String, startdate : Date, enddate : Date, apply : boolean) => {
+const useFetchData = (type : String, startdate : Date, enddate : Date) => {
     const [loading, setLoading] = useRecoilState(loadingState);
     const [data, setData] = useState([]);
     const [daysArray, setDaysArray] = useState([]);
@@ -12,7 +12,7 @@ const useFetchData = (type : String, startdate : Date, enddate : Date, apply : b
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('http://split-backend-five.vercel.app/api/account/monthly', {
+                const response = await axios.post('https://split-backend-five.vercel.app/api/account/monthly', {
                     type,
                     startdate,
                     enddate
@@ -31,7 +31,7 @@ const useFetchData = (type : String, startdate : Date, enddate : Date, apply : b
         };
 
         fetchData();
-    }, [type, startdate, enddate, apply]);
+    }, [type]);
 
     return { loading, data, daysArray };
 };
