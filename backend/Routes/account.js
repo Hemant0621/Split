@@ -41,8 +41,8 @@ router.post('/', authMiddleware, async (req, res) => {
 
 router.post('/amount', authMiddleware, async (req, res) => {
 
-    const start = req.body.start || new Date(new Date().getDate());
-    const end = req.body.end || new Date().toISOString();
+    const start = req.body.start;
+    const end = req.body.end ;
 
     const amount = await Account.find({
         "date": {
