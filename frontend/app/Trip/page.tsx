@@ -2,7 +2,7 @@
 import Sidebar from '@/components/Sidebar'
 import React, { useState } from 'react'
 
-function page() {
+function Page() {
     const [dark, setdark] = useState<boolean>(false)
 
     return (
@@ -14,4 +14,4 @@ function page() {
     );
 }
 
-export default page
+export default Page
