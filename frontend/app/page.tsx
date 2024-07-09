@@ -21,8 +21,13 @@ const MainApp = () => {
   const [dark, setDark] = useRecoilState(darkModeState);
 
 
-  if (typeof window !== 'undefined') {
-    if (window.localStorage.getItem('token')) {
+    if (typeof window !== 'undefined'){
+      if(!window.localStorage.getItem('token')){
+        location.href='/signup'
+        return <></>
+      }
+    }
+    else{
       return (
         <div className={`grid grid-cols-12 w-full h-screen overflow-y-hidden font-Clash ${dark ? "dark" : ""} transition-colors duration-400 ease-linear bg-[#f3aa4e] dark:bg-[#111820] dark:text-white `}>
           <Sidebar />
@@ -32,11 +37,9 @@ const MainApp = () => {
           </div>
         </div>
       );
+
     }
-  }
-  else {
-    {location.href='/signup'}
-    return <></>
-  }
+
+
 
 };
