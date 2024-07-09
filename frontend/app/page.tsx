@@ -35,7 +35,7 @@ const MainApp = () => {
     }
   }
   else {
-    location.href = '/signup'
+    {location.href='/signup'}
     return <></>
   }
 
