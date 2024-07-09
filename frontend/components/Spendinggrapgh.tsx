@@ -27,8 +27,6 @@ function Spendinggraph() {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-
-            console.log(response.data)
             setpast(response.data)
         }
 

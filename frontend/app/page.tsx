@@ -9,6 +9,11 @@ import { RecoilRoot, useRecoilState } from 'recoil';
 
 export default function Home() {
 
+  if (typeof window !== 'undefined') {
+    if (!window.localStorage.getItem('token')) {
+      window.location.href = '/signup'
+    }
+  }
   return (
     <RecoilRoot>
       <MainApp />
@@ -20,21 +25,14 @@ const MainApp = () => {
 
   const [dark, setDark] = useRecoilState(darkModeState);
 
+  return (
+    <div className={`grid grid-cols-12 w-full h-screen overflow-y-hidden font-Clash ${dark ? "dark" : ""} transition-colors duration-400 ease-linear bg-[#f3aa4e] dark:bg-[#111820] dark:text-white `}>
+      <Sidebar />
+      <div className="col-span-10 h-screen flex flex-col justify-between">
+        <Navbar />
+        <Dashboard />
+      </div>
+    </div>
+  );
 
-    if (typeof window !== 'undefined'){
-      if(!window.localStorage.getItem('token')){
-        window.location.href = '/signup'
-      }
-    }
-    else{
-      return (
-        <div className={`grid grid-cols-12 w-full h-screen overflow-y-hidden font-Clash ${dark ? "dark" : ""} transition-colors duration-400 ease-linear bg-[#f3aa4e] dark:bg-[#111820] dark:text-white `}>
-          <Sidebar />
-          <div className="col-span-10 h-screen flex flex-col justify-between">
-            <Navbar />
-            <Dashboard />
-          </div>
-        </div>
-      );
-    }
 };

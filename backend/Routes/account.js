@@ -19,18 +19,18 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 })
 
-router.get('/past', authMiddleware , async (req , res)=>{
+router.get('/past', authMiddleware, async (req, res) => {
 
     try {
-        
+
         const item = await Account.find({
             userId: req.userId
-        }).limit(10).sort({'date' : -1})
+        }).limit(10).sort({ 'date': -1 })
 
         res.send(item)
 
     } catch (error) {
-        res.send({error})
+        res.send({ error })
     }
 
 
@@ -59,12 +59,10 @@ router.post('/', authMiddleware, async (req, res) => {
 router.post('/amount', authMiddleware, async (req, res) => {
 
     const start = req.body.start;
-    const end = req.body.end ;
+    const end = req.body.end;
 
     const amount = await Account.find({
-        $match : {
-            userId : req.userId
-        },
+        userId: req.userId,
         "date": {
             "$gt": start,
             "$lt": end
@@ -100,7 +98,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             const expenses = await Account.aggregate([
                 {
                     $match: {
-                        userId : req.userId,
+                        userId: req.userId,
                         date: {
                             $gte: startDate,
                             $lte: endDate
@@ -156,18 +154,18 @@ router.post('/monthly', authMiddleware, async (req, res) => {
 
             const expenses = await Account.aggregate([
                 {
-                    $match : {
-                        userId : req.userId
+                    $match: {
+                        userId: req.userId
                     }
                 },
                 {
                     $group: {
-                        _id: { $month: "$date" }, 
-                        total: { $sum: "$price" } 
+                        _id: { $month: "$date" },
+                        total: { $sum: "$price" }
                     }
                 },
                 {
-                    $sort: { _id: 1 } 
+                    $sort: { _id: 1 }
                 }
             ]);
 
