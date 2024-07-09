@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { loadingState } from './darkmode';
 
-const useFetchData = (type : String, startdate : Date, enddate : Date) => {
+const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
     const [loading, setLoading] = useRecoilState(loadingState);
     const [data, setData] = useState([]);
     const [daysArray, setDaysArray] = useState([]);

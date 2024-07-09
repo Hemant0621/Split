@@ -35,7 +35,7 @@ function Navbar() {
     }, [])
 
     return (
-        <div className='col-span-10 bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white p-5'>
+        <div className='col-span-10 bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white p-2'>
             {additem?<Additem setadditem={setadditem} />:''}
             <div className='w-full flex justify-between p-5'>
                 <div className=' flex gap-16 items-center '>

@@ -10,7 +10,7 @@ function Dashboard() {
 
 
     return (
-        <div className='col-span-10 transition-colors h-full duration-400 ease-linear p-5'>
+        <div className='col-span-10 h-5/6 transition-colors duration-400 ease-linear p-5'>
             <Spending />
             <Spendinggrapgh />
         </div>

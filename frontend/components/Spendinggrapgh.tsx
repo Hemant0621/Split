@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useFetchData from '@/hooks/usefetchdata';
 import useECharts from '@/hooks/useEchart';
 import { darkModeState } from '@/hooks/darkmode';
 import { useRecoilState } from 'recoil';
+import axios from 'axios';
 
 function Spendinggraph() {
     const chartRef = useRef(null);
@@ -13,20 +14,37 @@ function Spendinggraph() {
     const [startdate, setStartDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
     const [enddate, setEndDate] = useState(new Date(today.getFullYear(), today.getMonth() + 1, 1));
     const [type, setType] = useState('');
+    const [past, setpast] = useState([])
 
     const { loading, data, daysArray } = useFetchData(type, startdate, enddate);
     useECharts(chartRef, data, daysArray, color, dark);
 
+    useEffect(() => {
+
+        async function result() {
+            const response = await axios.get('https://split-backend-five.vercel.app/api/account/past', {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            console.log(response.data)
+        }
+
+        result()
+
+    }, [])
+
     if (loading) {
         return (
-            <div className='w-full h-[82%] rounded-3xl bg-white flex items-center justify-center'>
+            <div className='w-full h-full rounded-3xl bg-white flex items-center justify-center'>
                 <img src='/kUTME7ABmhYg5J3psM.gif' />
             </div>
         );
     }
 
     return (
-        <div className='w-full flex gap-10 mt-10 h-[53vh]'>
+        <div className='w-full flex gap-10 mt-10 h-[69%]'>
             <div className='relative w-7/12 py-4 h-full bg-white dark:bg-[#353148] rounded-3xl '>
                 <div ref={chartRef} className="w-full h-full" ></div>
                 <button className='absolute top-3 right-6 group/main text-end font-medium text-slate-400 p-1 cursor-pointer'>
@@ -52,71 +70,72 @@ function Spendinggraph() {
                 </button>
             </div>
             <div className='w-5/12 bg-white dark:bg-[#353148] rounded-3xl h-full'>
-                <div className='w-full h-full flex flex-col gap-4 px-5 py-5 '>
-                    <div className=' px-5 flex w-full justify-between '>
-                        <h1 className=' w-1/4 font-bold font-Clash text-xl text-left '>Item</h1>
-                        <h1 className=' w-1/4 font-bold font-Clash text-xl text-center '>Category</h1>
-                        <h1 className=' w-1/4 font-bold font-Clash text-xl text-center '>price</h1>
-                        <h1 className=' w-1/4 font-bold font-Clash text-xl text-right '>Date</h1>
+                <h1 className='w-full text-center font-bold text-2xl pt-2'>Last 10 Purchases</h1>
+                <div className='w-full h-full flex flex-col gap-3 px-5   scrollbar scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-black dark:scrollbar-thumb-white scrollbar-track-[#f3aa4e] dark:scrollbar-track-[#111820] '>
+                    <div className=' px-8 py-2 flex w-full justify-between border-4 border-white dark:border-[#353148] border-b-[#f3aa4e] dark:border-b-[#111820] '>
+                        <h1 className=' w-1/4 font-medium font-Clash text-lg text-left '>Item</h1>
+                        <h1 className=' w-1/4 font-medium font-Clash text-lg text-center '>Category</h1>
+                        <h1 className=' w-1/4 font-medium font-Clash text-lg text-center '>price</h1>
+                        <h1 className=' w-1/4 font-medium font-Clash text-lg text-right '>Date</h1>
                     </div>
 
 
-                    <div className='px-5 scrollbar-thin h-[90%] overflow-y-auto flex flex-col gap-2 '>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                    <div className='px-5 scrollbar-thin h-[70%] py-1 overflow-y-auto flex flex-col gap-2 '>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
                             <h1 className='w-1/4 text-left'>Item</h1>
                             <h1 className='w-1/4 text-center'>Category</h1>
                             <h1 className='w-1/4 text-center'>price</h1>
                             <h1 className='w-1/4 text-right'>2024-07-05</h1>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

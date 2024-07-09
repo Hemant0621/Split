@@ -19,6 +19,21 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 })
 
+router.get('/past', authMiddleware , async (req , res)=>{
+
+    try {
+        
+        const item = await Account.find({}).limit(10).sort({'date' : -1})
+
+        res.send(item)
+
+    } catch (error) {
+        res.send({error})
+    }
+
+
+})
+
 router.post('/', authMiddleware, async (req, res) => {
     try {
 

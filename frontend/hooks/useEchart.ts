@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import * as echarts from 'echarts';
+import { useRecoilState } from 'recoil';
+import { loadingState } from './darkmode';
 
 const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Array<String>, color : String, dark : boolean) => {
-    console.log(daysArray)
+
+
+
     useEffect(() => {
         if (chartRef.current && data.length > 0) {
             const myChart = echarts.init(chartRef.current);
