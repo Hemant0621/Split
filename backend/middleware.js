@@ -1,6 +1,8 @@
 const { JWT_SECRET } = require("./config");
 const jwt = require("jsonwebtoken");
 const { User } = require("./db");
+const { mongoose } = require("mongoose");
+
 
 const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -15,6 +17,7 @@ const authMiddleware = async (req, res, next) => {
         const decoded = jwt.verify(token, JWT_SECRET);
 
         req.userId = decoded.userId;
+        
 
         const user = await User.findOne({
             _id: decoded.userId

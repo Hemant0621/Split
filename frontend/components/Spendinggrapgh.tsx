@@ -20,7 +20,6 @@ function Spendinggraph() {
     useECharts(chartRef, data, daysArray, color, dark);
 
     useEffect(() => {
-        console.log('spending')
         async function result() {
             const response = await axios.get('https://split-backend-five.vercel.app/api/account/past', {
                 headers: {
@@ -81,7 +80,7 @@ function Spendinggraph() {
 
                     <div className='px-5 scrollbar-thin h-[70%] py-1 overflow-y-auto flex flex-col gap-2 '>
 
-                        {past.map((item:{
+                        {past.length>0?past.map((item:{
                             heading : string,
                             type : string,
                             price : {
@@ -96,7 +95,7 @@ function Spendinggraph() {
                                 <h1 className='w-1/4 text-center'>{item.price.$numberDecimal.toString()}</h1>
                                 <h1 className='w-1/4 text-right'>{item.date.split('T')[0]}</h1>
                             </div>
-                        ))}
+                        )):<div className='text-center font-medium font-xl'>No Purchases yet</div>}
 
 
                     </div>

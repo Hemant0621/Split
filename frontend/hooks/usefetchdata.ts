@@ -9,11 +9,10 @@ const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
     const [daysArray, setDaysArray] = useState([]);
 
     useEffect(() => {
-        console.log('usefetch')
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('https://split-backend-five.vercel.app/api/account/monthly', {
+                const response = await axios.post('http://localhost:3002/api/account/monthly', {
                     type,
                     startdate,
                     enddate
@@ -22,6 +21,7 @@ const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
                         authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
+                console.log(response.data)
                 setData(response.data.data);
                 setDaysArray(response.data.daysArray);
                 setLoading(false);

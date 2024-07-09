@@ -1,6 +1,7 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
 const { Account } = require('../db');
+const { default: mongoose } = require('mongoose');
 
 const router = express.Router();
 
@@ -63,13 +64,12 @@ router.post('/amount', authMiddleware, async (req, res) => {
 
     const amount = await Account.find({
         userId: req.userId,
-        "date": {
+        date: {
             "$gt": start,
             "$lt": end
         }
     })
-    console.log(start)
-    console.log(end)
+
     var total = 0
 
     amount.map((price) => {
@@ -87,7 +87,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
 
     try {
 
-        const type = req.body.type || '';
+        const type = req.body.type;
 
 
         if (type == 'custom' || type == 'month') {
@@ -98,7 +98,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             const expenses = await Account.aggregate([
                 {
                     $match: {
-                        userId: req.userId,
+                        // userId: req.userId,
                         date: {
                             $gte: startDate,
                             $lte: endDate
@@ -124,6 +124,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
                 }
             ]);
 
+            console.log(expenses)
             const numberOfDays = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24));
             const daysArray = [];
             const currentDate = new Date(startDate);
@@ -140,7 +141,6 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             expenses.map((expense) => {
                 const date = new Date(`${expense._id.year}-${String(expense._id.month).padStart(2, '0')}-${String(expense._id.day).padStart(2, '0')}`)
                 const count = Math.ceil((date - startDate + 1) / (1000 * 60 * 60 * 24))
-                console.log(count)
                 data[count] = parseInt(expense.total)
             })
 
@@ -151,23 +151,15 @@ router.post('/monthly', authMiddleware, async (req, res) => {
         }
 
         else {
-
             const expenses = await Account.aggregate([
                 {
                     $match: {
-                        userId: req.userId
+                        'userId': req.userId
                     }
-                },
-                {
-                    $group: {
-                        _id: { $month: "$date" },
-                        total: { $sum: "$price" }
-                    }
-                },
-                {
-                    $sort: { _id: 1 }
                 }
             ]);
+
+            console.log(expenses)
 
             const daysArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             var data = Array(12).fill(0)

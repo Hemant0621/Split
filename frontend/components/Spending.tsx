@@ -18,7 +18,7 @@ function Spending() {
         const endOfLastMonth = new Date(startOfCurrentMonth - 1);
         const startOfLastMonth = new Date(endOfLastMonth.getFullYear(), endOfLastMonth.getMonth(), 1);
         async function result() {
-            const total = await axios.post("https://split-backend-five.vercel.app/api/account/amount", {
+            const total = await axios.post("http://localhost:3002/api/account/amount", {
                 start : startdate,
                 end : enddate
             }, {
@@ -26,7 +26,7 @@ function Spending() {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            const month = await axios.post("https://split-backend-five.vercel.app/api/account/amount", {
+            const month = await axios.post("http://localhost:3002/api/account/amount", {
                 start: startOfLastMonth,
                 end: endOfLastMonth
             }, {
@@ -34,6 +34,7 @@ function Spending() {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
+
             settotal(total.data.total)
             setmonth(month.data.total)
             setloading(false)
