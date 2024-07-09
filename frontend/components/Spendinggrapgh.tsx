@@ -29,6 +29,7 @@ function Spendinggraph() {
             })
 
             console.log(response.data)
+            setpast(response.data)
         }
 
         result()
@@ -81,60 +82,24 @@ function Spendinggraph() {
 
 
                     <div className='px-5 scrollbar-thin h-[70%] py-1 overflow-y-auto flex flex-col gap-2 '>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
-                        <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
-                            <h1 className='w-1/4 text-left'>Item</h1>
-                            <h1 className='w-1/4 text-center'>Category</h1>
-                            <h1 className='w-1/4 text-center'>price</h1>
-                            <h1 className='w-1/4 text-right'>2024-07-05</h1>
-                        </div>
+
+                        {past.map((item:{
+                            heading : string,
+                            type : string,
+                            price : {
+                                $numberDecimal : Number
+                            },
+                            date : string,
+                            _id : string
+                        }) => (
+                            <div key={item._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-3 transition-transform transform hover:scale-105 duration-300'>
+                                <h1 className='w-1/4 text-left'>{item.heading}</h1>
+                                <h1 className='w-1/4 text-center'>{item.type}</h1>
+                                <h1 className='w-1/4 text-center'>{item.price.$numberDecimal.toString()}</h1>
+                                <h1 className='w-1/4 text-right'>{item.date.split('T')[0]}</h1>
+                            </div>
+                        ))}
+
 
                     </div>
                 </div>

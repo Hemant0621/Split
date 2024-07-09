@@ -31,7 +31,7 @@ function Additem({ setadditem }: { setadditem: Function }) {
             <div className='w-2/3 h-3/4 bg-[#f3aa4e] dark:bg-[#353148]  rounded-xl flex flex-col gap-10 items-center py-20'>
                 <div className='w-2/3'>
                     <label htmlFor="Heading" className="block text-black dark:text-white text-3xl text-left w-full font-bold mb-2">Heading</label>
-                    <input className=' w-full p-2 border border-black dark:text-white rounded-lg' placeholder='Heading' value={heading} onChange={(e) => setheading(e.target.value)} />
+                    <input className=' w-full p-2 border rounded-lg text-black' placeholder='Heading' value={heading} onChange={(e) => setheading(e.target.value)} />
                 </div>
                 <div className=' w-2/3 flex justify-between'>
                     <div>
@@ -39,17 +39,17 @@ function Additem({ setadditem }: { setadditem: Function }) {
                         <select className='bg-white dark:text-black p-3  rounded-lg border border-red-600' value={type} onChange={(e) => settype(e.target.value)}>
                             <option value="">Select Type</option>
                             <option value="daily item">Food</option>
-                            <option value="Snacks">Staitionary</option>
-                            <option value="Snacks">Transporation</option>
-                            <option value="Snacks">Entertainment</option>
-                            <option value="Snacks">Daily care</option>
-                            <option value="Snacks">clothing</option>
-                            <option value="Snacks">Miscellaneus</option>
+                            <option value="Staitionary">Staitionary</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Enternainment">Entertainment</option>
+                            <option value="Daily care">Daily care</option>
+                            <option value="Clothing">clothing</option>
+                            <option value="Miscellaneus">Miscellaneus</option>
                         </select>
                     </div>
                     <div className='w-1/2'>
                         <label htmlFor="Price" className="block text-black dark:text-white text-3xl text-left w-full font-bold mb-2">Price</label>
-                        <input type='number' className=' w-full p-2 border border-black rounded-lg' value={price} placeholder='Price' onChange={(e) => setprice(e.target.value)} />
+                        <input type='number' className=' w-full p-2 border text-black border-black rounded-lg' value={price} placeholder='Price' onChange={(e) => setprice(e.target.value)} />
                     </div>
 
                 </div>
