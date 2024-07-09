@@ -141,7 +141,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             expenses.map((expense) => {
                 const date = new Date(`${expense._id.year}-${String(expense._id.month).padStart(2, '0')}-${String(expense._id.day).padStart(2, '0')}`)
                 const count = Math.ceil((date - startDate + 1) / (1000 * 60 * 60 * 24))
-                data[count-1] = parseInt(expense.total)
+                data[count] = parseInt(expense.total)
             })
 
             res.json({
