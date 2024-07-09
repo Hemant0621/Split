@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil'
 function Spending() {
 
     const [total, settotal] = useState(0)
-    const [month, setmonth] = useState(-1)
+    const [month, setmonth] = useState(0)
     const today = new Date()
     const [startdate , setSartDate] = useState(new Date(new Date().getDate()))
     const [enddate , setEndDate] = useState(today)
