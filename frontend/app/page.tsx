@@ -22,21 +22,21 @@ const MainApp = () => {
 
 
   if (typeof window !== 'undefined') {
-    if (!window.localStorage.getItem('token')) {
-      location.href = '/signup'
-      return <></>
+    if (window.localStorage.getItem('token')) {
+      return (
+        <div className={`grid grid-cols-12 w-full h-screen overflow-y-hidden font-Clash ${dark ? "dark" : ""} transition-colors duration-400 ease-linear bg-[#f3aa4e] dark:bg-[#111820] dark:text-white `}>
+          <Sidebar />
+          <div className="col-span-10 h-screen flex flex-col justify-between">
+            <Navbar />
+            <Dashboard />
+          </div>
+        </div>
+      );
     }
   }
   else {
-    return (
-      <div className={`grid grid-cols-12 w-full h-screen overflow-y-hidden font-Clash ${dark ? "dark" : ""} transition-colors duration-400 ease-linear bg-[#f3aa4e] dark:bg-[#111820] dark:text-white `}>
-        <Sidebar />
-        <div className="col-span-10 h-screen flex flex-col justify-between">
-          <Navbar />
-          <Dashboard />
-        </div>
-      </div>
-    );
+    location.href = '/signup'
+    return <></>
   }
 
 };
