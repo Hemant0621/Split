@@ -23,7 +23,9 @@ router.get('/past', authMiddleware , async (req , res)=>{
 
     try {
         
-        const item = await Account.find({}).limit(10).sort({'date' : -1})
+        const item = await Account.find({
+            userId: req.userId
+        }).limit(10).sort({'date' : -1})
 
         res.send(item)
 
@@ -60,6 +62,9 @@ router.post('/amount', authMiddleware, async (req, res) => {
     const end = req.body.end ;
 
     const amount = await Account.find({
+        $match : {
+            userId : req.userId
+        },
         "date": {
             "$gt": start,
             "$lt": end
@@ -95,6 +100,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             const expenses = await Account.aggregate([
                 {
                     $match: {
+                        userId : req.userId,
                         date: {
                             $gte: startDate,
                             $lte: endDate
@@ -149,6 +155,11 @@ router.post('/monthly', authMiddleware, async (req, res) => {
         else {
 
             const expenses = await Account.aggregate([
+                {
+                    $match : {
+                        userId : req.userId
+                    }
+                },
                 {
                     $group: {
                         _id: { $month: "$date" }, 
