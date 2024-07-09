@@ -12,7 +12,7 @@ const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('http://localhost:3002/api/account/monthly', {
+                const response = await axios.post('https://split-backend-five.vercel.app/api/account/monthly', {
                     type,
                     startdate,
                     enddate
