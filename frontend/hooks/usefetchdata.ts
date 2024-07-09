@@ -9,6 +9,7 @@ const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
     const [daysArray, setDaysArray] = useState([]);
 
     useEffect(() => {
+        console.log('usefetch')
         const fetchData = async () => {
             setLoading(true);
             try {
@@ -23,11 +24,10 @@ const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
                 });
                 setData(response.data.data);
                 setDaysArray(response.data.daysArray);
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
+            } 
         };
 
         fetchData();

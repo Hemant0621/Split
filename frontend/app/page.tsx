@@ -24,7 +24,6 @@ const MainApp = () => {
     if (typeof window !== 'undefined'){
       if(!window.localStorage.getItem('token')){
         window.location.href = '/signup'
-        return <></>
       }
     }
     else{

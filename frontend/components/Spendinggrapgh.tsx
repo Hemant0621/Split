@@ -20,7 +20,7 @@ function Spendinggraph() {
     useECharts(chartRef, data, daysArray, color, dark);
 
     useEffect(() => {
-
+        console.log('spending')
         async function result() {
             const response = await axios.get('https://split-backend-five.vercel.app/api/account/past', {
                 headers: {
