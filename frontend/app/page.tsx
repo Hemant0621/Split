@@ -19,8 +19,11 @@ const MainApp = () => {
 
   const [dark, setDark] = useRecoilState(darkModeState);
 
-  if(!localStorage.getItem('token')){
-    location.href = '/signup'
+  if (typeof window !== 'undefined'){
+    if(!localStorage.getItem('token')){
+      location.href = '/signup'
+      return <></>
+    }
   }
   else{
     return (
