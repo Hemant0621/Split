@@ -88,6 +88,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
     try {
 
         const type = req.body.type;
+        const userId = new mongoose.Types.ObjectId(req.userId)
 
 
         if (type == 'custom' || type == 'month') {
@@ -98,7 +99,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             const expenses = await Account.aggregate([
                 {
                     $match: {
-                        // userId: req.userId,
+                        userId,
                         date: {
                             $gte: startDate,
                             $lte: endDate
@@ -124,7 +125,6 @@ router.post('/monthly', authMiddleware, async (req, res) => {
                 }
             ]);
 
-            console.log(expenses)
             const numberOfDays = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24));
             const daysArray = [];
             const currentDate = new Date(startDate);
@@ -141,7 +141,7 @@ router.post('/monthly', authMiddleware, async (req, res) => {
             expenses.map((expense) => {
                 const date = new Date(`${expense._id.year}-${String(expense._id.month).padStart(2, '0')}-${String(expense._id.day).padStart(2, '0')}`)
                 const count = Math.ceil((date - startDate + 1) / (1000 * 60 * 60 * 24))
-                data[count] = parseInt(expense.total)
+                data[count-1] = parseInt(expense.total)
             })
 
             res.json({
@@ -151,15 +151,23 @@ router.post('/monthly', authMiddleware, async (req, res) => {
         }
 
         else {
+
             const expenses = await Account.aggregate([
                 {
                     $match: {
-                        'userId': req.userId
+                        userId
                     }
+                },
+                {
+                    $group: {
+                        _id: { $month: "$date" },
+                        total: { $sum: "$price" }
+                    }
+                },
+                {
+                    $sort: { _id: 1 }
                 }
             ]);
-
-            console.log(expenses)
 
             const daysArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             var data = Array(12).fill(0)
