@@ -23,7 +23,7 @@ const MainApp = () => {
 
     if (typeof window !== 'undefined'){
       if(!window.localStorage.getItem('token')){
-        location.href='/signup'
+        window.location.href = '/signup'
         return <></>
       }
     }
@@ -37,9 +37,5 @@ const MainApp = () => {
           </div>
         </div>
       );
-
     }
-
-
-
 };
