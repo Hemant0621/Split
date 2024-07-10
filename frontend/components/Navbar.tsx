@@ -13,15 +13,15 @@ type Dark = {
 function Navbar() {
 
     const [username, setusername] = useState('')
-    const [additem , setadditem ] = useState(false)
+    const [additem, setadditem] = useState(false)
 
     const [dark, setDark] = useRecoilState(darkModeState);
 
     const toggleDarkMode = () => {
-        if(!dark){
+        if (!dark) {
             window.document.body.style.backgroundColor = "#111820"
         }
-        else{
+        else {
             window.document.body.style.backgroundColor = "#f3aa4e"
         }
         setDark(!dark)
@@ -42,11 +42,30 @@ function Navbar() {
 
     return (
         <div className=' bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white md:p-2'>
-            {additem?<Additem setadditem={setadditem} />:''}
+            {additem ? <Additem setadditem={setadditem} /> : ''}
             <div className='w-full flex justify-between p-2 md:p-5'>
                 <div className=' flex gap-4 md:gap-10 lg:gap-16 items-center '>
-                    <h1 className='text-md md:text-xl lg:text-3xl font-extrabold '>Dashboard</h1>
-                    <button onClick={()=>setadditem(true)} className="rounded-lg relative w-20 md:w-36 h-7  md:h-10 cursor-pointer flex items-center border border-[#c8d3d5] dark:border-[#604083] bg-[#c8d3d5] dark:bg-[#604083] group hover:bg-[#c8d3d5] dark:hover:bg-[#604083] active:bg-[#c8d3d5] dark:active:bg-[#604083] active:border-[#c8d3d5] dark:active:border-[#604083]">
+                    <button className='text-md md:text-xl flex items-center gap-1 lg:text-3xl font-extrabold group relative md:pointer-events-none'>
+                        Dashboard
+                        <span className='md:hidden'><img className='h-2 dark:invert' src='/down.png' /></span>
+                        <div className='hidden group-focus-within:flex w-[7rem] py-1 h-10rem flex-col absolute top-0 z-10 bg-[#f3aa4e] dark:bg-[#111820] shadow-black shadow-md rounded-lg'>
+                            <div className='flex flex-col px-2 gap-3 py-5 '>
+                                <a href="/"><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>Home</h1></a>
+                                <a href="/Trip"><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>Trips</h1></a>
+                                <a href=""><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>profile</h1></a>
+                            </div>
+                            <div className='flex gap-1 justify-center items-center px-1 py-1 mx-2  bg-white dark:bg-[#604083] rounded-lg '
+                                onClick={() => {
+                                    location.href = '/signin'
+                                    localStorage.removeItem('token')
+                                }}
+                            >
+                                <img className='h-4 dark:invert' src="/logout.png " alt="" />
+                                <h1 className='font-medium  text-base '>Logout</h1>
+                            </div>
+                        </div>
+                    </button>
+                    <button onClick={() => setadditem(true)} className="rounded-lg relative w-20 md:w-36 h-7  md:h-10 cursor-pointer flex items-center border border-[#c8d3d5] dark:border-[#604083] bg-[#c8d3d5] dark:bg-[#604083] group hover:bg-[#c8d3d5] dark:hover:bg-[#604083] active:bg-[#c8d3d5] dark:active:bg-[#604083] active:border-[#c8d3d5] dark:active:border-[#604083]">
                         <span className="text-black dark:text-white font-semibold text-center md:text-left w-full md:ml-3 text-xs md:text-sm lg:text-lg transform group-hover:hidden transition-all duration-300">Add Item</span>
                         <span className=" hidden md:flex absolute right-0 h-full w-10 rounded-lg bg-[#c8d3d5] dark:bg-[#604083] items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-500">
                             <svg className="svg w-8 text-black dark:text-white"

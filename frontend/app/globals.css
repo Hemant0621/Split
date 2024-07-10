@@ -13,3 +13,9 @@
   src: url("/fonts/SourceCodePro-VariableFont_wght.ttf");
   font-display: swap;
 }
+
+@layer components{
+  body{
+    background-color: #f3aa4e;
+  }
+}
