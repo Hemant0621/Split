@@ -48,8 +48,8 @@ function Navbar() {
                     <button className='text-md md:text-xl flex items-center gap-1 lg:text-3xl font-extrabold group relative md:pointer-events-none'>
                         Dashboard
                         <span className='md:hidden'><img className='h-2 dark:invert' src='/down.png' /></span>
-                        <div className='hidden group-focus-within:flex w-[7rem] py-1 h-10rem flex-col absolute top-0 z-10 bg-[#f3aa4e] dark:bg-[#111820] shadow-black shadow-md rounded-lg'>
-                            <div className='flex flex-col px-2 gap-3 py-5 '>
+                        <div className='hidden group-focus-within:flex w-[7rem] pb-4 h-10rem flex-col gap-3 absolute top-0 z-10 bg-[#f3aa4e] dark:bg-[#111820] shadow-black shadow-md rounded-lg'>
+                            <div className='flex flex-col px-2 gap-3 pt-5 '>
                                 <a href="/"><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>Home</h1></a>
                                 <a href="/Trip"><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>Trips</h1></a>
                                 <a href=""><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>profile</h1></a>
