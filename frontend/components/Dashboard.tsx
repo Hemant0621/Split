@@ -10,7 +10,7 @@ function Dashboard() {
 
 
     return (
-        <div className='col-span-10 h-5/6 transition-colors duration-400 ease-linear p-5'>
+        <div className='w-full h-screen transition-colors flex flex-col gap-5 duration-400 ease-linear p-5 bg-[#f3aa4e] dark:bg-[#111820]'>
             <Spending />
             <Spendinggrapgh />
         </div>

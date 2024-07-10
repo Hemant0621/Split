@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 import { useRecoilState } from 'recoil';
 import { loadingState } from './darkmode';
 
 const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Array<String>, color : String, dark : boolean) => {
 
-
-
+    const [font , setfont ] = useState(15)
+    
     useEffect(() => {
         if (chartRef.current && data.length > 0) {
+            if(window.screen.width<500){
+                setfont(7)
+            }
             const myChart = echarts.init(chartRef.current);
 
             myChart.setOption({
@@ -17,7 +20,7 @@ const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Arra
                     left: 'center',
                     textStyle: {
                         color: color,
-                        fontSize: 20,
+                        fontSize: font+8,
                         fontWeight: 'bold',
                         fontFamily: 'clash'
                     }
@@ -28,7 +31,7 @@ const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Arra
                     backgroundColor: dark ? 'rgb(53, 49, 72,1)' : 'rgb(243, 170, 78)',
                     textStyle: {
                         color: 'white',
-                        fontSize: 12,
+                        fontSize: font+5,
                         fontWeight: 'light',
                         fontFamily: 'clash'
                     }
@@ -43,7 +46,7 @@ const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Arra
                     },
                     axisLabel: {
                         color: color,
-                        fontSize: 12,
+                        fontSize: font,
                         fontFamily: 'clash'
                     }
                 },
@@ -56,7 +59,7 @@ const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Arra
                     },
                     axisLabel: {
                         color: color,
-                        fontSize: 12,
+                        fontSize: font,
                         fontFamily: 'clash'
                     }
                 },
@@ -77,7 +80,7 @@ const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Arra
                             show: true,
                             position: 'top',
                             color: color,
-                            fontSize: 12,
+                            fontSize: font,
                             fontFamily: 'clash'
                         }
                     }

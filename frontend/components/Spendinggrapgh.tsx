@@ -42,15 +42,15 @@ function Spendinggraph() {
     }
 
     return (
-        <div className='w-full flex gap-10 mt-10 h-[69%]'>
-            <div className='relative w-7/12 py-4 h-full bg-white dark:bg-[#353148] rounded-3xl '>
-                <div ref={chartRef} className="w-full h-full" ></div>
-                <button className='absolute top-3 right-6 group/main text-end font-medium text-slate-400 p-1 cursor-pointer'>
+        <div className='w-full flex flex-col md:flex-row gap-5 md:gap-10 mt-8 md:px-5 h-full'>
+            <div className='relative w-full flex justify-center pt-3 md:w-7/12 h-[40rem] md:h-full bg-white dark:bg-[#353148] rounded-xl md:rounded-2xl '>
+                <div ref={chartRef} className="w-full h-full pl-2 " ></div>
+                <button className='absolute top-3 right-2 md:right-6 group/main text-end font-medium text-slate-400 p-1 cursor-pointer'>
                     Year
-                    <div className='text-slate-800 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] dark:text-white w-40 flex-col gap-3 p-3 items-center -left-10 text-center rounded-lg hidden group-focus-within/main:flex'>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-4 py-2 w-36' onClick={() => setType('')}>Year</h1>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-4 py-2 w-36' onClick={() => { setStartDate(new Date(today.getFullYear(), today.getMonth(), 1)); setEndDate(new Date(today.getFullYear(), today.getMonth() + 1, 1)); setType('month') }}>Month</h1>
-                        <button className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-4 py-2 w-36 group/sub'>
+                    <div className='text-slate-800 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] dark:text-white w-40 flex-col gap-3 p-3 items-center -left-28 md:-left-10 text-center rounded-lg hidden group-focus-within/main:flex'>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => setType('')}>Year</h1>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => { setStartDate(new Date(today.getFullYear(), today.getMonth(), 1)); setEndDate(new Date(today.getFullYear(), today.getMonth() + 1, 1)); setType('month') }}>Month</h1>
+                        <button className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full group/sub'>
                             Custom
                             <div className='text-slate-800 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] gap-3 p-3 items-center text-center rounded-lg hidden group-focus-within/sub:flex'>
                                 <div className=''>
@@ -67,9 +67,9 @@ function Spendinggraph() {
                     </div>
                 </button>
             </div>
-            <div className='w-5/12 bg-white dark:bg-[#353148] rounded-3xl h-full'>
-                <h1 className='w-full text-center font-bold text-2xl pt-2'>Last 10 Purchases</h1>
-                <div className='w-full h-full flex flex-col gap-3 px-5   scrollbar scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-black dark:scrollbar-thumb-white scrollbar-track-[#f3aa4e] dark:scrollbar-track-[#111820] '>
+            <div className=' w-full md:w-5/12 bg-white dark:bg-[#353148] rounded-xl md:rounded-2xl h-full'>
+                <h1 className='w-full text-center font-bold text-base md:text-lg lg:text-2xl pt-2'>Last 10 Purchases</h1>
+                <div className='w-full h-full flex flex-col gap-3 px-1 md:px-5  scrollbar scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-black dark:scrollbar-thumb-white scrollbar-track-[#f3aa4e] dark:scrollbar-track-[#111820] '>
                     <div className=' px-8 py-2 flex w-full justify-between border-4 border-white dark:border-[#353148] border-b-[#f3aa4e] dark:border-b-[#111820] '>
                         <h1 className=' w-1/4 font-medium font-Clash text-lg text-left '>Item</h1>
                         <h1 className=' w-1/4 font-medium font-Clash text-lg text-center '>Category</h1>

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Sidebar() {
     return (
-        <div className='col-span-2  p-5'>
+        <div className=' hidden md:grid col-span-2  p-5 z-10'>
             <div className='bg-white dark:bg-[#353148] transition-colors duration-400 ease-linear flex flex-col items-center justify-between pb-10 h-full rounded-xl'>
                 <div className='flex flex-col gap-5  p-5 '>
                     <img className='w-52 dark:invert' src='/Logo.png' alt='' />
