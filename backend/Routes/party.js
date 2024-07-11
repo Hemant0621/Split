@@ -125,6 +125,17 @@ router.post('/join', authMiddleware, async (req, res) => {
                 message: "this Party does't exist"
             })
         }
+        
+        const check2 = await Party.findOne({
+            Id: body.Id,
+            userId: req.userId
+        })
+        
+        if (!check2) {
+            return res.send({
+                message: "You are already part of this Party"
+            })
+        }
 
         const party = await Party.create({
             Id: body.Id,
