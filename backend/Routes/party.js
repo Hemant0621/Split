@@ -130,8 +130,10 @@ router.post('/join', authMiddleware, async (req, res) => {
             Id: body.Id,
             userId: req.userId
         })
+
+        console.log(check2)
         
-        if (!check2) {
+        if (check2) {
             return res.send({
                 message: "You are already part of this Party"
             })
