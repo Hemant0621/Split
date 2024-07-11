@@ -1,8 +1,12 @@
+import { useParams } from 'next/navigation'
 import React from 'react'
 
 function Party() {
+
+    const code = useParams()
+
   return (
-    <div>Party</div>
+    <div>Party : {code.id}</div>
   )
 }
 
