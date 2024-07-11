@@ -90,10 +90,10 @@ function Spendinggraph() {
                             _id : string
                         }) => (
                             <div key={item._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300'>
-                                <h1 className='w-1/4 text-left text-xs md:text-base'>{item.heading}</h1>
-                                <h1 className='w-1/4 text-center text-xs md:text-base'>{item.type}</h1>
-                                <h1 className='w-1/4 text-center text-xs md:text-base'>{item.price.$numberDecimal.toString()}</h1>
-                                <h1 className='w-1/4 text-right text-xs md:text-base'>{item.date.split('T')[0]}</h1>
+                                <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>{item.heading}</h1>
+                                <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{item.type}</h1>
+                                <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{item.price.$numberDecimal.toString()}</h1>
+                                <h1 className='w-1/4 text-right text-xs md:text-sm break-words px-1'>{item.date.split('T')[0]}</h1>
                             </div>
                         )):<div className='text-center font-medium text-base md:text-xl'>No Purchases yet</div>}
 
