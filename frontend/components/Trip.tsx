@@ -31,7 +31,7 @@ function Trip() {
                             <div className='w-1/4 focus:hidden bg-[#f3aa4e] rounded-lg p-2 font-medium font-Clash'
                                 onClick={async () => {
                                     if (code.length == 6) {
-                                        const response = await axios.post("http://localhost:3002/api/party/join", {
+                                        const response = await axios.post("https://split-backend-five.vercel.app/api/party/join", {
                                             Id:code
                                         }, {
                                             headers: {
