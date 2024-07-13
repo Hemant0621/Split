@@ -82,8 +82,8 @@ const AccountSchema = new mongoose.Schema({
 })
 
 const PartygroupSchema = new mongoose.Schema({
-    Id : string,
-    location : string,
+    Id : String,
+    location : String,
     
 })
 

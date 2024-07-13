@@ -14,7 +14,7 @@ function Trip() {
                 <div className=' h-full w-[30%] flex flex-col justify-around'>
                     <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash'
                         onClick={async () => {
-                            const response = await axios.post("https://split-backend-five.vercel.app/api/party/create", {
+                            const response = await axios.post("http://localhost:3002/api/party/create", {
                                 location:"delhi"
                             }, {
                                 headers: {
