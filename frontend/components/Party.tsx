@@ -10,7 +10,7 @@ function Party() {
   useEffect(() => {
 
     async function result() {
-      const response = await axios.get("http://localhost:3002/api/party/group", {
+      const response = await axios.get("https://split-backend-five.vercel.app/api/party/group", {
         params : {
           id : code.id
         },
