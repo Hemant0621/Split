@@ -10,7 +10,7 @@ function Sidebar() {
                     <a href="/Trip"><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10]'>Trips</h1></a>
                     <a href=""><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10]'>profile</h1></a>
                 </div>
-                <div className='flex gap-1 justify-center items-center w-full py-2  bg-[#f3aa4e] dark:bg-[#111820] hover:bg-[#ff9b20] dark:hover:bg-[#090c10] rounded-lg '
+                <div className='flex gap-1 justify-center items-center w-full py-2  bg-[#f3aa4e] dark:bg-[#111820] hover:bg-[#ff9b20] dark:hover:bg-[#090c10] rounded-lg cursor-pointer '
                     onClick={() => {
                         const logout = confirm("Do you want to logout")
                         if(logout){
