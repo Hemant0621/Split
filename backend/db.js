@@ -1,5 +1,6 @@
 // backend/db.js
 const mongoose = require('mongoose');
+const { string } = require('zod');
 
 mongoose.connect("mongodb+srv://hemantkumar2335h:Hemant12@mydata.wprhwlz.mongodb.net/Splitbill")
 
@@ -80,12 +81,20 @@ const AccountSchema = new mongoose.Schema({
     }
 })
 
+const PartygroupSchema = mongoose.Schema({
+    Id : string,
+    location : string,
+    
+})
+
 const User = mongoose.model('User', userSchema); 
 const Party = mongoose.model('Party', PartySchema);
+const Partygroup = mongoose.model('Partygroup', PartygroupSchema);
 const Account = mongoose.model('Account', AccountSchema);
 
 module.exports = {
 	User,   
     Party,
-    Account
+    Account,
+    Partygroup
 };

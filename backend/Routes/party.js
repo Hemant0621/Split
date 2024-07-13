@@ -1,6 +1,6 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
-const { Party, User } = require('../db');
+const { Party, User, Partygroup } = require('../db');
 
 const router = express.Router();
 
@@ -56,20 +56,20 @@ router.put('/split', authMiddleware, async (req, res) => {
         const check = await Party.findOne({
             Id
         })
-    
+
         if (!check) {
             return res.send({
                 message: "Id does't exist"
             })
         }
-    
+
         await Party.updateOne({
             Id,
             userId: req.userId
         }, {
-            $inc: { balance: amount , total : amount }
+            $inc: { balance: amount, total: amount }
         })
-    
+
         const count = await Party.countDocuments({
             Id
         })
@@ -78,10 +78,10 @@ router.put('/split', authMiddleware, async (req, res) => {
             Id
         }, {
             $inc: {
-                balance: -(amount/count).toFixed(2)
+                balance: -(amount / count).toFixed(2)
             }
         })
-    
+
         return res.send({
             user
         })
@@ -94,6 +94,9 @@ router.put('/split', authMiddleware, async (req, res) => {
 router.post('/create', authMiddleware, async (req, res) => {
 
     try {
+
+        const body = req.body;
+
         const party = await Party.create({
             Id: Math.random().toString(36).substring(2, 8),
             userId: req.userId,
@@ -101,13 +104,19 @@ router.post('/create', authMiddleware, async (req, res) => {
             total: 0
         })
 
-        return res.send({
-            party
+        const partygroup = await Partygroup.create({
+            Id: party.Id,
+            location: body.location
         })
 
+return res.send({
+    party,
+    partygroup
+})
+
     } catch (error) {
-        console.log(error)
-    }
+    console.log(error)
+}
 
 })
 
@@ -125,14 +134,14 @@ router.post('/join', authMiddleware, async (req, res) => {
                 message: "this Party does't exist"
             })
         }
-        
+
         const check2 = await Party.findOne({
             Id: body.Id,
             userId: req.userId
         })
 
         console.log(check2)
-        
+
         if (check2) {
             return res.send({
                 message: "You are already part of this Party"
@@ -143,7 +152,7 @@ router.post('/join', authMiddleware, async (req, res) => {
             Id: body.Id,
             userId: req.userId,
             balance: 0,
-            total:0
+            total: 0
         })
 
         return res.send({
@@ -157,20 +166,20 @@ router.post('/join', authMiddleware, async (req, res) => {
 })
 
 
-router.get('/settle' , authMiddleware ,async (req , res )=>{
+router.get('/settle', authMiddleware, async (req, res) => {
 
-    const Id = req.query.Id ;
+    const Id = req.query.Id;
 
     const users = await Party.find({
         Id
     })
 
 
-    
+
     async function settleBalances(balances) {
         const payers = [];
         const receivers = [];
-        
+
         // Separate payers and receivers
         for (const [user, balance] of Object.entries(balances)) {
             if (balance > 0) {
@@ -179,25 +188,25 @@ router.get('/settle' , authMiddleware ,async (req , res )=>{
                 payers.push({ user, amount: -balance }); // Store as positive value
             }
         }
-        
+
         const transactions = [];
-        
+
         // Match payers with receivers
         while (payers.length > 0 && receivers.length > 0) {
             const payer = payers[0];
             const receiver = receivers[0];
-    
+
             const settledAmount = Math.min(payer.amount, receiver.amount);
-    
+
             transactions.push({
                 from: payer.user,
                 to: receiver.user,
                 amount: settledAmount.toFixed(2)
             });
-            
+
             payer.amount -= settledAmount;
             receiver.amount -= settledAmount;
-            
+
             if (payer.amount === 0) {
                 payers.shift(); // Remove settled payer
             }
@@ -205,11 +214,11 @@ router.get('/settle' , authMiddleware ,async (req , res )=>{
                 receivers.shift(); // Remove settled receiver
             }
         }
-        
+
         return transactions;
     }
     const balances = {};
-    
+
     async function populateBalances(users) {
         await Promise.all(users.map(async (user) => {
             const userInfo = await User.findById(user.userId);
@@ -217,12 +226,12 @@ router.get('/settle' , authMiddleware ,async (req , res )=>{
             balances[username] = user.balance;
         }));
     }
-    
+
     await populateBalances(users)
     const transactions = await settleBalances(balances);
     console.log(transactions);
-    
-    return res.send({transactions})
+
+    return res.send({ transactions })
 })
 
 module.exports = router
