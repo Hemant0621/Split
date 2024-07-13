@@ -4,6 +4,20 @@ const { Party, User, Partygroup } = require('../db');
 
 const router = express.Router();
 
+router.get('/group', authMiddleware, async (req , res)=>{
+    try {
+        
+        const Id = req.query.id
+        const group = await Partygroup.findOne({
+            Id
+        })
+
+        res.send(group)
+
+    } catch (error) {
+        res.send({error})
+    }
+})
 
 router.get('/', authMiddleware, async (req, res) => {
 
