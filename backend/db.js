@@ -82,7 +82,10 @@ const AccountSchema = new mongoose.Schema({
 })
 
 const PartygroupSchema = new mongoose.Schema({
-    Id : String,
+    Id : {
+        type:String,
+        ref:'Party'
+    },
     location : String,
     
 })
