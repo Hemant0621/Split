@@ -4,17 +4,23 @@ import React, { useEffect, useState } from 'react'
 function Trip() {
 
     const [code, setcode] = useState('')
-    const [trips , settrips] = useState([])
+    const [trips, settrips] = useState([])
 
-    useEffect(()=>{
-        
+    useEffect(() => {
+
         async function result() {
-            
-            const response = await axios.get("https://split-backend-five.vercel.app/api/account/past")
+
+            const response = await axios.get("http://localhost:3002/api/party", {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            console.log(response.data.results)
+            settrips(response.data.results)
         }
 
         result()
-    })
+    },[])
 
 
 
@@ -86,29 +92,23 @@ function Trip() {
 
                         <div className=' px-2 md:px-4 scrollbar-thin h-[75%] py-1 overflow-y-auto flex flex-col gap-2 '>
 
-                            {/* {past.length > 0 ? past.map((item: {
-                                heading: string,
+                            {trips.length > 0 ? trips.map((trip: {
+                                Id: string,
                                 type: string,
-                                price: {
-                                    $numberDecimal: Number
+                                partyGroups: {
+                                    location: string,
+                                    total : Number
                                 },
                                 date: string,
                                 _id: string
                             }) => (
-                                <div key={item._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300'>
-                                    <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>{item.heading}</h1>
-                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{item.type}</h1>
-                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{item.price.$numberDecimal.toString()}</h1>
-                                    <h1 className='w-1/4 text-right text-xs md:text-sm break-words px-1'>{item.date.split('T')[0]}</h1>
+                                <div key={trip._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300'>
+                                    <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>{trip.partyGroups.location}</h1>
+                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{trip.Id}</h1>
+                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{trip.partyGroups.total.toString()}</h1>
+                                    <h1 className='w-1/4 text-right text-xs md:text-sm break-words px-1'>{trip.date}</h1>
                                 </div>
-                                )) : <div className='text-center font-medium text-base md:text-xl'>No Purchases yet</div>} */}
-
-                            <div className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-2 transition-transform transform hover:scale-105 duration-300'>
-                                <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>item.heading</h1>
-                                <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>item.type</h1>
-                                <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>item.price.</h1>
-                                <h1 className='w-1/4 text-right text-xs md:text-sm break-words px-1'>item.date.split('T')[0]</h1>
-                            </div>
+                                )) : <div className='text-center font-medium text-base md:text-xl'>No Trips yet</div>}
 
                         </div>
                     </div>
