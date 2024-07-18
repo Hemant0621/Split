@@ -164,7 +164,7 @@ router.post('/create', authMiddleware, async (req, res) => {
             Id: party.Id,
             location: body.location,
             total: 0,
-            settled:false
+            settled: false
         })
 
         return res.send({
