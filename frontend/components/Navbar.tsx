@@ -42,7 +42,7 @@ function Navbar() {
 
     return (
         <div className=' bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white md:p-2'>
-            {additem ? <Additem setadditem={setadditem} /> : ''}
+            {additem ? <Additem setadditem={setadditem} url='https://split-backend-five.vercel.app/api/account'/> : ''}
             <div className='w-full flex justify-between p-2 md:p-5'>
                 <div className=' flex gap-4 md:gap-10 lg:gap-16 items-center '>
                     <button className='text-md md:text-xl flex items-center gap-1 lg:text-3xl font-extrabold group relative md:pointer-events-none'>
@@ -65,7 +65,7 @@ function Navbar() {
                             </div>
                         </div>
                     </button>
-                    <button onClick={() => setadditem(true)} className="rounded-lg relative w-20 md:w-36 h-7  md:h-10 cursor-pointer flex items-center border border-[#c8d3d5] dark:border-[#604083] bg-[#c8d3d5] dark:bg-[#604083] group hover:bg-[#c8d3d5] dark:hover:bg-[#604083] active:bg-[#c8d3d5] dark:active:bg-[#604083] active:border-[#c8d3d5] dark:active:border-[#604083]">
+                    <button onClick={() => setadditem(true)} className="rounded-lg relative w-20 md:w-36 h-7  md:h-10 cursor-pointer flex items-center border border-black dark:border-[#604083] bg-[#c8d3d5] dark:bg-[#604083] group hover:bg-[#c8d3d5] dark:hover:bg-[#604083] active:bg-[#c8d3d5] dark:active:bg-[#604083] active:border-[#c8d3d5] dark:active:border-[#604083] ">
                         <span className="text-black dark:text-white font-semibold text-center md:text-left w-full md:ml-3 text-xs md:text-sm lg:text-lg transform group-hover:hidden transition-all duration-300">Add Item</span>
                         <span className=" hidden md:flex absolute right-0 h-full w-10 rounded-lg bg-[#c8d3d5] dark:bg-[#604083] items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-500">
                             <svg className="svg w-8 text-black dark:text-white"

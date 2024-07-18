@@ -15,12 +15,14 @@ function Trip() {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            console.log(response.data.results)
-            settrips(response.data.results)
+            if (response.data.results) {
+                console.log(response.data.results[0])
+                settrips(response.data.results)
+            }
         }
 
         result()
-    },[])
+    }, [])
 
 
 
@@ -31,9 +33,9 @@ function Trip() {
 
                 </div>
                 <div className=' h-full w-[30%] flex flex-col justify-around'>
-                    <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash'
+                    <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'
                         onClick={async () => {
-                            const response = await axios.post("https://split-backend-five.vercel.app/api/party/create", {
+                            const response = await axios.post("http://localhost:3002/api/party/create", {
                                 location: "delhi"
                             }, {
                                 headers: {
@@ -46,7 +48,7 @@ function Trip() {
                             }
                         }}
                     >Create a Trip party</button>
-                    <button className='w-full h-[45%] rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash'>
+                    <button className='w-full h-[45%] rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash border border-black'>
                         <div className='w-full group-focus-within:hidden '>Join a Trip party</div>
                         <div className='w-full justify-around items-center hidden group-focus-within:flex'>
                             <input className='w-2/4 px-4 py-2 font-Clash rounded-lg text-base ' placeholder='Enter the party code ' onChange={(e) => {
@@ -80,7 +82,7 @@ function Trip() {
             </div>
             <div className=' h-[65%] flex justify-between '>
 
-                <div className=' w-full md:w-7/12 bg-white dark:bg-[#353148] rounded-xl md:rounded-2xl h-full'>
+                <div className=' w-full md:w-[65%] bg-white dark:bg-[#353148] rounded-xl md:rounded-2xl h-full border border-black'>
                     <h1 className='w-full text-center font-bold text-base md:text-lg lg:text-2xl pt-2'>Last 10 Trips</h1>
                     <div className='w-full h-full flex flex-col gap-3 px-1 md:px-5  scrollbar scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-black dark:scrollbar-thumb-white scrollbar-track-[#f3aa4e] dark:scrollbar-track-[#111820] '>
                         <div className=' px-2 md:px-5 py-2 flex w-full justify-between border-4 border-white dark:border-[#353148] border-b-[#f3aa4e] dark:border-b-[#111820] '>
@@ -90,31 +92,35 @@ function Trip() {
                             <h1 className=' w-1/4 font-medium font-Clash text-base md:text-lg text-right '>Date</h1>
                         </div>
 
-                        <div className=' px-2 md:px-4 scrollbar-thin h-[75%] py-1 overflow-y-auto flex flex-col gap-2 '>
+                        <div className=' px-2 md:px-5 scrollbar-thin h-[75%] py-1 overflow-y-auto flex flex-col gap-2 '>
 
                             {trips.length > 0 ? trips.map((trip: {
                                 Id: string,
-                                type: string,
-                                partyGroups: {
+                                partyGroups: [{
                                     location: string,
-                                    total : Number
-                                },
+                                    total: {
+                                        $numberDecimal: Number
+                                    }
+                                }],
                                 date: string,
                                 _id: string
+
                             }) => (
-                                <div key={trip._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300'>
-                                    <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>{trip.partyGroups.location}</h1>
+                                <div key={trip._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300  cursor-pointer border border-black'
+                                    onClick={() => location.href = `/Trip/${trip.Id}`}
+                                >
+                                    <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].location}</h1>
                                     <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{trip.Id}</h1>
-                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{trip.partyGroups.total.toString()}</h1>
+                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].total.$numberDecimal.toString()}</h1>
                                     <h1 className='w-1/4 text-right text-xs md:text-sm break-words px-1'>{trip.date}</h1>
                                 </div>
-                                )) : <div className='text-center font-medium text-base md:text-xl'>No Trips yet</div>}
+                            )) : <div className='text-center font-medium text-base md:text-xl'>No Trips yet</div>}
 
                         </div>
                     </div>
                 </div>
 
-                <div className='w-full md:w-4/12 bg-white rounded-xl'>
+                <div className='w-full md:w-[34%] bg-white rounded-xl border border-black'>
 
                 </div>
 

@@ -51,6 +51,10 @@ const PartySchema = new mongoose.Schema({
         type: mongoose.Types.Decimal128,
         require : true
     },
+    total:{
+        type: mongoose.Types.Decimal128,
+        require : true
+    },
 })
 
 const AccountSchema = new mongoose.Schema({

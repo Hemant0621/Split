@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Message from './Message'
 
 
-function Additem({ setadditem }: { setadditem: Function }) {
+function Additem({ setadditem , url }: { setadditem: Function , url: string }) {
 
     const [show, setshow] = useState(false)
     const [heading, setheading] = useState('')
@@ -23,7 +23,7 @@ function Additem({ setadditem }: { setadditem: Function }) {
     }
 
     return (
-        <div className=' absolute left-0 top-0 w-screen h-screen flex items-center justify-center bg-opacity-80 bg-slate-500 z-10 '>
+        <div className=' absolute left-0 top-0 w-screen h-screen flex items-center justify-center bg-opacity-80 bg-slate-500 z-10 border border-black '>
             {show ? <Message Heading={"Successfull"} message={"item added Successfully"} /> : ""}
             <button className='absolute top-5 right-5 md:top-10 md:right-10' onClick={handleclose}>
                 <img className=' w-9 md:w-12' src="/cancel.png" alt="" />
@@ -57,7 +57,7 @@ function Additem({ setadditem }: { setadditem: Function }) {
                     <button style={{ boxShadow: 'inset 0 2px 4px 0 rgb(2 6 23 / 0.3), inset 0 -2px 4px 0 rgb(203 213 225)' }} className=" text-black  inline-flex cursor-pointer items-center gap-1 rounded border border-slate-600 bg-gradient-to-b from-slate-50 to-slate-200 px-4 py-2 font-semibold hover:opacity-90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-500 focus-visible:ring-offset-2 active:opacity-100"
                         onClick={async () => {
                             setloading(true)
-                            const response = await axios.post('https://split-backend-five.vercel.app/api/account', {
+                            const response = await axios.post(url, {
                                 heading,
                                 price,
                                 type,

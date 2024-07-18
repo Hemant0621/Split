@@ -57,6 +57,7 @@ router.put('/add', authMiddleware, async (req, res) => {
             userId: req.userId
         }, {
             $inc: { balance: amount },
+            $inc: { total: amount },
         })
 
         await Partygroup.updateOne({
@@ -95,7 +96,8 @@ router.put('/split', authMiddleware, async (req, res) => {
             Id,
             userId: req.userId
         }, {
-            $inc: { balance: amount }
+            $inc: { balance: amount },
+            $inc: { total: amount }
         })
 
         await Partygroup.updateOne({
@@ -134,7 +136,8 @@ router.post('/create', authMiddleware, async (req, res) => {
         const party = await Party.create({
             Id: Math.random().toString(36).substring(2, 8),
             userId: req.userId,
-            balance: 0
+            balance: 0,
+            total: 0
         })
 
         const partygroup = await Partygroup.create({
@@ -185,7 +188,8 @@ router.post('/join', authMiddleware, async (req, res) => {
         const party = await Party.create({
             Id: body.Id,
             userId: req.userId,
-            balance: 0
+            balance: 0,
+            total:0
         })
 
         return res.send({

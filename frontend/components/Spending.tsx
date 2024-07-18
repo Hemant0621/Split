@@ -50,7 +50,7 @@ function Spending() {
 
     return (
         <div className='grid grid-cols-12 gap-2 md:gap-3 w-full h-[10vw] md:h-1/4 p-1 '>
-            <div className='col-span-4 bg-white dark:bg-[#353148] h-full relative rounded-xl md:rounded-2xl flex items-center py-3 md:py-6 md:px-5'>
+            <div className='col-span-4 bg-white dark:bg-[#353148] h-full relative rounded-xl md:rounded-2xl flex items-center py-3 md:py-6 md:px-5 border border-black'>
                 <div className='w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#27d095] rounded-lg ml-1 md:rounded-2xl p-2'>
                     <img className='w-full h-full' src="/spending.png" alt="" />
                 </div>
@@ -82,7 +82,7 @@ function Spending() {
                     </div>
                 </button>
             </div>
-            <div className='col-span-4 bg-white dark:bg-[#353148] h-full rounded-xl md:rounded-2xl flex gap-3 items-center md:py-6 md:px-5'>
+            <div className='col-span-4 bg-white dark:bg-[#353148] h-full rounded-xl md:rounded-2xl flex gap-3 items-center md:py-6 md:px-5 border border-black'>
                 <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
                     <img className='w-full h-full' src="/month.png" alt="" />
                 </div>
@@ -91,7 +91,7 @@ function Spending() {
                     <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹{month}</h1>
                 </div>
             </div>
-            <div className='col-span-4 bg-white dark:bg-[#353148] h-full rounded-xl md:rounded-2xl flex gap-3 items-center md:py-6 md:px-5'>
+            <div className='col-span-4 bg-white dark:bg-[#353148] h-full rounded-xl md:rounded-2xl flex gap-3 items-center md:py-6 md:px-5 border border-black'>
                 <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#f54f5f] ml-1 rounded-lg md:rounded-2xl p-2'>
                     <img className='w-full h-full' src="/travel-bag.png" alt="" />
                 </div>
