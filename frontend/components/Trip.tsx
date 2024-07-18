@@ -6,6 +6,7 @@ function Trip() {
     const [code, setcode] = useState('')
     const [trips, settrips] = useState([])
 
+
     useEffect(() => {
 
         async function result() {
@@ -18,6 +19,7 @@ function Trip() {
             if (response.data.results) {
                 console.log(response.data.results[0])
                 settrips(response.data.results)
+
             }
         }
 

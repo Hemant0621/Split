@@ -9,7 +9,9 @@ function Party() {
   const [destination, setdestination] = useState('')
   const [url, seturl] = useState('')
   const [partyuser, setpartyuser] = useState([])
+  const [transaction, settransaction] = useState([])
   const [additem, setadditem] = useState(false)
+  const [settled, setsettled] = useState(false)
 
 
   useEffect(() => {
@@ -25,6 +27,7 @@ function Party() {
       })
       console.log(response.data)
       setpartyuser(response.data.partyuser)
+      setsettled(response.data.group.settled)
       // setdestination(response.data.location)
     }
 
@@ -95,9 +98,57 @@ function Party() {
         </div>
 
         <div className='w-full md:w-[42%] bg-white rounded-xl border border-black'>
+          {settled
+            ?
+            <div>
+              <h1 className='w-full text-center font-bold text-base md:text-lg lg:text-2xl pt-2'>Settled Transaction</h1>
+              <div className='w-full h-full flex flex-col gap-3 px-1 md:px-5  scrollbar scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-black dark:scrollbar-thumb-white scrollbar-track-[#f3aa4e] dark:scrollbar-track-[#111820] '>
+                <div className=' px-2 md:px-5 py-2 flex w-full justify-between border-4 border-white dark:border-[#353148] border-b-[#f3aa4e] dark:border-b-[#111820] '>
+                  <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-center '>From</h1>
+                  <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-center '>To</h1>
+                  <h1 className=' w-1/4 font-semibold font-Clash text-sm md:text-base text-center '>Amount</h1>
+                </div>
 
+                <div className=' px-2 md:px-5 scrollbar-thin h-[75%] py-1 overflow-y-auto flex flex-col gap-2 '>
+                  {transaction.length > 0 ? transaction.map((transfer: {
+                    from: string,
+                    to: string,
+                    amount: string,
+                  }) => (
+                    <div key={transfer.from} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300  cursor-pointer border border-black'>
+                      <h1 className='w-1/4 text-left font-medium text-xs md:text-sm break-words px-1'>{transfer.from}</h1>
+                      <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{transfer.to}</h1>
+                      <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{transfer.amount}</h1>
+                    </div>
+                  )) :  
+                    <div className='text-center font-medium text-base md:text-xl'>No Transaction needed</div>
+                  }
+                </div>
+              </div>
+            </div>
+            :
+            <div className='flex justify-center items-center h-full w-full'>
+              <button
+                className="inline-flex items-center px-4 py-2 bg-[#f3aa4e] dark:bg-[#111820] hover:bg-[#ff9b20] dark:hover:bg-[#090c10] transition ease-in-out delay-75 text-black text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110"
+                onClick={async () => {
+                  const response = await axios.get('https://split-backend-five.vercel.app/api/party/settle', {
+                    params: {
+                      Id: code.id
+                    },
+                    headers: {
+                      authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                  })
+                  settransaction(response.data)
+                  console.log(response.data)
+                  setsettled(true)
+                }}
+              >
+                Settle The payments
+              </button>
+
+            </div>}
         </div>
-
       </div>
     </div>
   )

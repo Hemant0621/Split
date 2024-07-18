@@ -287,9 +287,8 @@ router.get('/settle', authMiddleware, async (req, res) => {
 
     await populateBalances(users)
     const transactions = await settleBalances(balances);
-    console.log(transactions);
 
-    return res.send({ transactions })
+    return res.send(transactions)
 })
 
 module.exports = router
