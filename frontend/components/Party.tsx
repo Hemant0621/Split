@@ -15,7 +15,7 @@ function Party() {
   useEffect(() => {
 
     async function result() {
-      const response = await axios.get("http://localhost:3002/api/party/trip", {
+      const response = await axios.get("https://split-backend-five.vercel.app/api/party/trip", {
         params: {
           id: code.id
         },
@@ -42,13 +42,13 @@ function Party() {
         <div className=' h-full w-[30%] flex flex-col justify-around'>
           <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'
             onClick={async () => {
-              seturl('http://localhost:3002/api/party/add')
+              seturl('https://split-backend-five.vercel.app/api/party/add')
               setadditem(true)
             }}
           >Add Expensis</button>
           <button className='w-full h-[45%] rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash border border-black'
             onClick={async () => {
-              seturl('http://localhost:3002/api/party/split')
+              seturl('https://split-backend-five.vercel.app/api/party/split')
               setadditem(true)
             }}
           >

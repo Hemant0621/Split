@@ -91,7 +91,7 @@ const PartygroupSchema = new mongoose.Schema({
         type: mongoose.Types.Decimal128,
         require : true
     },
-    settled: boolean
+    settled: Boolean
 })
 
 const User = mongoose.model('User', userSchema); 
