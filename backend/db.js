@@ -1,6 +1,6 @@
 // backend/db.js
 const mongoose = require('mongoose');
-const { string } = require('zod');
+const { string, boolean } = require('zod');
 
 mongoose.connect("mongodb+srv://hemantkumar2335h:Hemant12@mydata.wprhwlz.mongodb.net/Splitbill")
 
@@ -90,8 +90,8 @@ const PartygroupSchema = new mongoose.Schema({
     total : {
         type: mongoose.Types.Decimal128,
         require : true
-    }
-    
+    },
+    settled:boolean
 })
 
 const User = mongoose.model('User', userSchema); 

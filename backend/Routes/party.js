@@ -4,24 +4,43 @@ const { Party, User, Partygroup } = require('../db');
 
 const router = express.Router();
 
-router.get('/group', authMiddleware, async (req, res) => {
+router.get('/trip', authMiddleware, async (req, res) => {
     try {
 
         const Id = req.query.id
         const group = await Partygroup.findOne({
             Id
         })
+        
+        const parties = await Party.find({
+            Id
+        })
 
-        res.send(group)
+        const userId = parties.map(party=>party.userId)
+        
+        const users = await User.find({
+             _id : { $in : userId}
+            },{
+                password:0
+            })
+
+        const partyuser = parties.map((party)=>{
+            return {
+                ...party.toObject(),
+                user:users.filter(user=>user._id.toString()==party.userId.toString())
+            }
+        })
+
+        res.send({group,partyuser})
 
     } catch (error) {
         res.send({ error })
     }
 })
 
+
 router.get('/', authMiddleware, async (req, res) => {
     try {
-        console.log('running');
 
         const parties = await Party.find({ userId: req.userId });
 
@@ -47,8 +66,8 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 });
 
-router.put('/add', authMiddleware, async (req, res) => {
-    const amount = req.body.amount
+router.post('/add', authMiddleware, async (req, res) => {
+    const amount = req.body.price
     const Id = req.body.Id
 
     try {
@@ -56,7 +75,6 @@ router.put('/add', authMiddleware, async (req, res) => {
             Id,
             userId: req.userId
         }, {
-            $inc: { balance: amount },
             $inc: { total: amount },
         })
 
@@ -76,9 +94,9 @@ router.put('/add', authMiddleware, async (req, res) => {
 })
 
 
-router.put('/split', authMiddleware, async (req, res) => {
+router.post('/split', authMiddleware, async (req, res) => {
 
-    const amount = req.body.amount
+    const amount = req.body.price
     const Id = req.body.Id
 
     try {
@@ -96,8 +114,8 @@ router.put('/split', authMiddleware, async (req, res) => {
             Id,
             userId: req.userId
         }, {
-            $inc: { balance: amount },
-            $inc: { total: amount }
+            $inc: { balance: amount , total: amount },
+
         })
 
         await Partygroup.updateOne({
@@ -117,6 +135,8 @@ router.put('/split', authMiddleware, async (req, res) => {
                 balance: -(amount / count).toFixed(2)
             }
         })
+
+        console.log({count,user})
 
         return res.send({
             user
@@ -143,7 +163,8 @@ router.post('/create', authMiddleware, async (req, res) => {
         const partygroup = await Partygroup.create({
             Id: party.Id,
             location: body.location,
-            total: 0
+            total: 0,
+            settled:false
         })
 
         return res.send({

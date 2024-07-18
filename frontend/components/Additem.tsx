@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import Message from './Message'
+import { useParams } from 'next/navigation'
 
 
 function Additem({ setadditem , url }: { setadditem: Function , url: string }) {
@@ -10,6 +11,7 @@ function Additem({ setadditem , url }: { setadditem: Function , url: string }) {
     const [type, settype] = useState('')
     const [price, setprice] = useState('')
     const [loading, setloading] = useState(false)
+    const Id = useParams().id
 
     function handleClick() {
         setshow(true);
@@ -61,6 +63,7 @@ function Additem({ setadditem , url }: { setadditem: Function , url: string }) {
                                 heading,
                                 price,
                                 type,
+                                Id,
                                 date: new Date()
                             }, {
                                 headers: {

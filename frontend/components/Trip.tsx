@@ -86,10 +86,10 @@ function Trip() {
                     <h1 className='w-full text-center font-bold text-base md:text-lg lg:text-2xl pt-2'>Last 10 Trips</h1>
                     <div className='w-full h-full flex flex-col gap-3 px-1 md:px-5  scrollbar scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-black dark:scrollbar-thumb-white scrollbar-track-[#f3aa4e] dark:scrollbar-track-[#111820] '>
                         <div className=' px-2 md:px-5 py-2 flex w-full justify-between border-4 border-white dark:border-[#353148] border-b-[#f3aa4e] dark:border-b-[#111820] '>
-                            <h1 className=' w-1/4 font-medium font-Clash text-base md:text-lg text-left '>Location</h1>
-                            <h1 className=' w-1/4 font-medium font-Clash text-base md:text-lg text-center '>Code</h1>
-                            <h1 className=' w-1/4 font-medium font-Clash text-sm md:text-base text-center '>total expense</h1>
-                            <h1 className=' w-1/4 font-medium font-Clash text-base md:text-lg text-right '>Date</h1>
+                            <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-left '>Location</h1>
+                            <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-center '>Code</h1>
+                            <h1 className=' w-1/4 font-semibold font-Clash text-sm md:text-base text-center '>total expense</h1>
+                            <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-center '>Date</h1>
                         </div>
 
                         <div className=' px-2 md:px-5 scrollbar-thin h-[75%] py-1 overflow-y-auto flex flex-col gap-2 '>
@@ -109,10 +109,10 @@ function Trip() {
                                 <div key={trip._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300  cursor-pointer border border-black'
                                     onClick={() => location.href = `/Trip/${trip.Id}`}
                                 >
-                                    <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].location}</h1>
-                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{trip.Id}</h1>
-                                    <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].total.$numberDecimal.toString()}</h1>
-                                    <h1 className='w-1/4 text-right text-xs md:text-sm break-words px-1'>{trip.date}</h1>
+                                    <h1 className='w-1/4 text-left font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].location}</h1>
+                                    <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.Id}</h1>
+                                    <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].total.$numberDecimal.toString()}</h1>
+                                    <h1 className='w-1/4 text-right font-medium text-xs md:text-sm break-words px-1'>{trip.date}</h1>
                                 </div>
                             )) : <div className='text-center font-medium text-base md:text-xl'>No Trips yet</div>}
 
