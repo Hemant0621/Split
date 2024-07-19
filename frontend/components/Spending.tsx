@@ -1,3 +1,4 @@
+import { DATABASE_URL } from '@/config'
 import { loadingState } from '@/hooks/darkmode'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -18,7 +19,7 @@ function Spending() {
         const endOfLastMonth = new Date(startOfCurrentMonth - 1);
         const startOfLastMonth = new Date(endOfLastMonth.getFullYear(), endOfLastMonth.getMonth(), 1);
         async function result() {
-            const total = await axios.post("https://split-backend-five.vercel.app/api/account/amount", {
+            const total = await axios.post(`${DATABASE_URL}/account/amount`, {
                 start: startdate,
                 end: enddate
             }, {
@@ -26,7 +27,7 @@ function Spending() {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            const month = await axios.post("https://split-backend-five.vercel.app/api/account/amount", {
+            const month = await axios.post(`${DATABASE_URL}/account/amount`, {
                 start: startOfLastMonth,
                 end: endOfLastMonth
             }, {

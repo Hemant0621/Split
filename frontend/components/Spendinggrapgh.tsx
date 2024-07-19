@@ -4,6 +4,7 @@ import useECharts from '@/hooks/useEchart';
 import { darkModeState } from '@/hooks/darkmode';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
+import { DATABASE_URL } from '@/config';
 
 function Spendinggraph() {
     const chartRef = useRef(null);
@@ -21,7 +22,7 @@ function Spendinggraph() {
 
     useEffect(() => {
         async function result() {
-            const response = await axios.get('https://split-backend-five.vercel.app/api/account/past', {
+            const response = await axios.get(`${DATABASE_URL}/account/past`, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }

@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import axios from 'axios'
+import { DATABASE_URL } from '@/config'
 
 function Signincomponent() {
     const [Email, setEmail] = useState('')
@@ -22,7 +23,7 @@ function Signincomponent() {
                     <div className="flex items-center justify-between">
                         <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" onClick={async () => {
 
-                            const response = await axios.post('https://split-backend-five.vercel.app/api/user/signin', {
+                            const response = await axios.post(`${DATABASE_URL}/user/signin`, {
                                 Email,
                                 password
                             }, {

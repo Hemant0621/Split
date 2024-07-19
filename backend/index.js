@@ -10,4 +10,4 @@ app.use(express.json())
 app.use("/api/", MainRouter);
 
 
-app.listen(3002);
+app.listen(3002,()=>{console.log("server running on port 3002")});

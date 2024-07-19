@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Additem from './Additem'
+import { DATABASE_URL } from '@/config'
 
 function Party() {
 
@@ -17,7 +18,7 @@ function Party() {
   useEffect(() => {
 
     async function result() {
-      const response = await axios.get("https://split-backend-five.vercel.app/api/party/trip", {
+      const response = await axios.get(`${DATABASE_URL}/party/trip`, {
         params: {
           id: code.id
         },
@@ -36,22 +37,48 @@ function Party() {
   }, [])
 
   return (
-    <div className='border-2 ml-5 h-5/6 rounded-lg flex flex-col justify-around'>
+    <div className=' h-5/6 flex flex-col justify-between px-5'>
       {additem ? <Additem setadditem={setadditem} url={url} /> : ''}
       <div className=' h-[30%] flex justify-around'>
-        <div className='border-2 h-full w-[68%]'>
-
+        <div className=' h-full w-[68%] flex justify-between p-1 items-center'>
+          <div className='h-full w-[32%] bg-white rounded-lg border border-black flex items-center justify-around'>
+            <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
+              <img className='w-full h-full' src="/month.png" alt="" />
+            </div>
+            <div className=' w-2/3  h-full flex flex-col justify-center'>
+              <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Code</h1>
+              <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>{code.id}</h1>
+            </div>
+          </div>
+          <div className='h-full w-[32%] bg-white rounded-lg border border-black flex items-center justify-around'>
+            <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
+              <img className='w-full h-full' src="/month.png" alt="" />
+            </div>
+            <div className=' w-2/3  h-full flex flex-col justify-center'>
+              <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Location</h1>
+              <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹month</h1>
+            </div>
+          </div>
+          <div className='h-full w-[32%] bg-white rounded-lg border border-black flex items-center justify-around'>
+            <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
+              <img className='w-full h-full' src="/month.png" alt="" />
+            </div>
+            <div className=' w-2/3  h-full flex flex-col justify-center'>
+              <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Total expense</h1>
+              <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹month</h1>
+            </div>
+          </div>
         </div>
         <div className=' h-full w-[30%] flex flex-col justify-around'>
           <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'
             onClick={async () => {
-              seturl('https://split-backend-five.vercel.app/api/party/add')
+              seturl(`${DATABASE_URL}/party/add`)
               setadditem(true)
             }}
           >Add Expensis</button>
           <button className='w-full h-[45%] rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash border border-black'
             onClick={async () => {
-              seturl('https://split-backend-five.vercel.app/api/party/split')
+              seturl(`${DATABASE_URL}/party/split`)
               setadditem(true)
             }}
           >
@@ -120,7 +147,7 @@ function Party() {
                       <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{transfer.to}</h1>
                       <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{transfer.amount}</h1>
                     </div>
-                  )) :  
+                  )) :
                     <div className='text-center font-medium text-base md:text-xl'>No Transaction needed</div>
                   }
                 </div>
@@ -131,7 +158,7 @@ function Party() {
               <button
                 className="inline-flex items-center px-4 py-2 bg-[#f3aa4e] dark:bg-[#111820] hover:bg-[#ff9b20] dark:hover:bg-[#090c10] transition ease-in-out delay-75 text-black text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110"
                 onClick={async () => {
-                  const response = await axios.get('https://split-backend-five.vercel.app/api/party/settle', {
+                  const response = await axios.get(`${DATABASE_URL}/party/settle`, {
                     params: {
                       Id: code.id
                     },

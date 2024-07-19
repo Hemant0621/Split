@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Additem from './Additem'
 import { darkModeState } from '@/hooks/darkmode'
 import { useRecoilState } from 'recoil'
+import { DATABASE_URL } from '@/config'
+
 
 type Dark = {
     dark: boolean,
@@ -29,7 +31,7 @@ function Navbar() {
 
     useEffect(() => {
         async function result() {
-            const response = await axios.get("https://split-backend-five.vercel.app/api/user", {
+            const response = await axios.get(`${DATABASE_URL}/user`, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -42,7 +44,7 @@ function Navbar() {
 
     return (
         <div className=' bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white md:p-2'>
-            {additem ? <Additem setadditem={setadditem} url='https://split-backend-five.vercel.app/api/account'/> : ''}
+            {additem ? <Additem setadditem={setadditem} url={`${DATABASE_URL}/account`}/> : ''}
             <div className='w-full flex justify-between p-2 md:p-5'>
                 <div className=' flex gap-4 md:gap-10 lg:gap-16 items-center '>
                     <button className='text-md md:text-xl flex items-center gap-1 lg:text-3xl font-extrabold group relative md:pointer-events-none'>

@@ -1,3 +1,4 @@
+import { DATABASE_URL } from '@/config'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
@@ -11,7 +12,7 @@ function Trip() {
 
         async function result() {
 
-            const response = await axios.get("https://split-backend-five.vercel.app/api/party", {
+            const response = await axios.get(`${DATABASE_URL}/party`, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -37,7 +38,7 @@ function Trip() {
                 <div className=' h-full w-[30%] flex flex-col justify-around'>
                     <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'
                         onClick={async () => {
-                            const response = await axios.post("https://split-backend-five.vercel.app/api/party/create", {
+                            const response = await axios.post(`${DATABASE_URL}/party/create`, {
                                 location: "delhi"
                             }, {
                                 headers: {
@@ -59,7 +60,7 @@ function Trip() {
                             <div className='w-1/4 focus:hidden bg-[#f3aa4e] dark:bg-[#090c10] rounded-lg p-2 font-medium font-Clash'
                                 onClick={async () => {
                                     if (code.length == 6) {
-                                        const response = await axios.post("https://split-backend-five.vercel.app/api/party/join", {
+                                        const response = await axios.post(`${DATABASE_URL}/party/join`, {
                                             Id: code
                                         }, {
                                             headers: {
