@@ -7,13 +7,18 @@ import { DATABASE_URL } from '@/config'
 function Party() {
 
   const code = useParams()
-  const [destination, setdestination] = useState('')
+  const [group, setgroup] = useState({
+    location:'loading...',
+    date:'loading...',
+    total:{
+      $numberDecimal : 'loading...'
+    }
+  })
   const [url, seturl] = useState('')
   const [partyuser, setpartyuser] = useState([])
   const [transaction, settransaction] = useState([])
   const [additem, setadditem] = useState(false)
   const [settled, setsettled] = useState(false)
-
 
   useEffect(() => {
 
@@ -28,8 +33,7 @@ function Party() {
       })
       console.log(response.data)
       setpartyuser(response.data.partyuser)
-      setsettled(response.data.group.settled)
-      // setdestination(response.data.location)
+      setgroup(response.data.group)
     }
 
     result()
@@ -40,34 +44,52 @@ function Party() {
     <div className=' h-5/6 flex flex-col justify-between px-5'>
       {additem ? <Additem setadditem={setadditem} url={url} /> : ''}
       <div className=' h-[30%] flex justify-around'>
-        <div className=' h-full w-[68%] flex justify-between p-1 items-center'>
-          <div className='h-full w-[32%] bg-white rounded-lg border border-black flex items-center justify-around'>
-            <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
-              <img className='w-full h-full' src="/month.png" alt="" />
+        <div className=' h-full w-[68%] flex flex-col justify-between p-1 items-center'>
+
+          <div className='h-[49%] w-full flex justify-between'>
+            <div className='h-full w-[49%] bg-white rounded-lg border border-black flex items-center justify-around'>
+              <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#f54f5f] ml-1 rounded-lg md:rounded-2xl p-2'>
+                <img className='w-full h-full' src="/password.png" alt="" />
+              </div>
+              <div className=' w-2/3  h-full flex flex-col justify-center'>
+                <h1 className=' font-bold text-[2vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Code</h1>
+                <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>{code.id}</h1>
+              </div>
             </div>
-            <div className=' w-2/3  h-full flex flex-col justify-center'>
-              <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Code</h1>
-              <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>{code.id}</h1>
-            </div>
-          </div>
-          <div className='h-full w-[32%] bg-white rounded-lg border border-black flex items-center justify-around'>
-            <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
-              <img className='w-full h-full' src="/month.png" alt="" />
-            </div>
-            <div className=' w-2/3  h-full flex flex-col justify-center'>
-              <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Location</h1>
-              <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹month</h1>
-            </div>
-          </div>
-          <div className='h-full w-[32%] bg-white rounded-lg border border-black flex items-center justify-around'>
-            <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
-              <img className='w-full h-full' src="/month.png" alt="" />
-            </div>
-            <div className=' w-2/3  h-full flex flex-col justify-center'>
-              <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Total expense</h1>
-              <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹month</h1>
+            <div className='h-full w-[49%] bg-white rounded-lg border border-black flex items-center justify-around'>
+              <div className='w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#27d095] rounded-lg ml-1 md:rounded-2xl p-2'>
+                <img className='w-full h-full' src="/spending.png" alt="" />
+              </div>
+              <div className=' w-2/3  h-full flex flex-col justify-center'>
+                <h1 className=' font-bold text-[2vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Total expense</h1>
+                <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹{group.total.$numberDecimal}</h1>
+              </div>
             </div>
           </div>
+
+          <div className='h-[49%] w-full flex justify-between'>
+            <div className='h-full w-[49%] bg-white rounded-lg border border-black flex items-center justify-around'>
+              <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2'>
+                <img className='w-full h-full' src="/location.png" alt="" />
+              </div>
+              <div className=' w-2/3  h-full flex flex-col justify-center'>
+                <h1 className=' font-bold text-[2vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Location</h1>
+                <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>{group.location}</h1>
+              </div>
+            </div>
+            <div className='h-full w-[49%] bg-white rounded-lg border border-black flex items-center justify-around'>
+              <div className=' w-1/3 md:w-[5vw] lg:w-[4vw]  bg-[#ff9f60] ml-1 rounded-lg md:rounded-2xl p-2'>
+                <img className='w-full h-full' src="/date.png" alt="" />
+              </div>
+              <div className=' w-2/3  h-full flex flex-col justify-center'>
+                <h1 className=' font-bold text-[2vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Date</h1>
+                <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>{new Date(group.date).toLocaleDateString()}</h1>
+              </div>
+            </div>
+          </div>
+
+
+
         </div>
         <div className=' h-full w-[30%] flex flex-col justify-around'>
           <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'

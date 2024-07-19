@@ -8,6 +8,7 @@ function Spending() {
 
     const [total, settotal] = useState(0)
     const [month, setmonth] = useState(0)
+    const [trip, settrip] = useState(0)
     const today = new Date()
     const [startdate, setSartDate] = useState(new Date(new Date().getDate()))
     const [enddate, setEndDate] = useState(today)
@@ -38,6 +39,7 @@ function Spending() {
 
             settotal(total.data.total)
             setmonth(month.data.total)
+            settrip(month.data.triptotal.$numberDecimal)
             setloading(false)
         }
 
@@ -98,7 +100,7 @@ function Spending() {
                 </div>
                 <div className=' w-2/3 h-full flex flex-col justify-center' >
                     <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Last trip Spendings</h1>
-                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹6000</h1>
+                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹{trip}</h1>
                 </div>
             </div>
         </div>

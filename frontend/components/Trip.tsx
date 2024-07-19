@@ -103,7 +103,8 @@ function Trip() {
                                     location: string,
                                     total: {
                                         $numberDecimal: Number
-                                    }
+                                    },
+                                    date:''
                                 }],
                                 date: string,
                                 _id: string
@@ -115,7 +116,7 @@ function Trip() {
                                     <h1 className='w-1/4 text-left font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].location}</h1>
                                     <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.Id}</h1>
                                     <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].total.$numberDecimal.toString()}</h1>
-                                    <h1 className='w-1/4 text-right font-medium text-xs md:text-sm break-words px-1'>{trip.date}</h1>
+                                    <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{new Date(trip.partyGroups[0].date).toLocaleDateString()}</h1>
                                 </div>
                             )) : <div className='text-center font-medium text-base md:text-xl'>No Trips yet</div>}
 

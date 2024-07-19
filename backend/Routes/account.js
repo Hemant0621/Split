@@ -1,6 +1,6 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
-const { Account } = require('../db');
+const { Account, Partygroup } = require('../db');
 const { default: mongoose } = require('mongoose');
 
 const router = express.Router();
@@ -76,9 +76,21 @@ router.post('/amount', authMiddleware, async (req, res) => {
         total += parseInt(price.price)
     })
 
+    const trip = await Partygroup.aggregate([
+        {
+            $group : {
+                _id : null,
+                total : { $sum : '$total'}
+            }
+        }
+    ])
+
+    const triptotal = trip[0].total
+
     return res.send({
         total,
-        amount
+        amount,
+        triptotal
     })
 
 })

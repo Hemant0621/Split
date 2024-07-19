@@ -91,7 +91,7 @@ const PartygroupSchema = new mongoose.Schema({
         type: mongoose.Types.Decimal128,
         require : true
     },
-    settled: Boolean
+    date:Date
 })
 
 const User = mongoose.model('User', userSchema); 

@@ -152,7 +152,7 @@ router.post('/create', authMiddleware, async (req, res) => {
     try {
 
         const body = req.body;
-
+        const date = new Date()
         const party = await Party.create({
             Id: Math.random().toString(36).substring(2, 8),
             userId: req.userId,
@@ -164,7 +164,7 @@ router.post('/create', authMiddleware, async (req, res) => {
             Id: party.Id,
             location: body.location,
             total: 0,
-            settled: false
+            date
         })
 
         return res.send({
