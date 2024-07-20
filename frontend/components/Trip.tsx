@@ -30,13 +30,13 @@ function Trip() {
 
 
     return (
-        <div className='border-2 ml-5 h-5/6 rounded-lg px-5 flex flex-col justify-around'>
-            <div className=' h-[30%] flex justify-around'>
-                <div className='border-2 h-full w-[68%]'>
+        <div className='border-2 ml-5 md:h-5/6 rounded-lg px-5 flex flex-col justify-around'>
+            <div className=' md:h-[30%] flex md:flex-row flex-col-reverse justify-around'>
+                <div className='border-2 h-full md:w-[68%]'>
 
                 </div>
-                <div className=' h-full w-[30%] flex flex-col justify-around'>
-                    <button className='w-full h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'
+                <div className=' h-full w-full md:w-[30%] flex gap-2 flex-col justify-around'>
+                    <button className='w-full py-3 md:h-[45%] rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'
                         onClick={async () => {
                             const response = await axios.post(`${DATABASE_URL}/party/create`, {
                                 location: "delhi"
@@ -51,7 +51,7 @@ function Trip() {
                             }
                         }}
                     >Create a Trip party</button>
-                    <button className='w-full h-[45%] rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash border border-black'>
+                    <button className='w-full py-3 md:h-[45%] rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash border border-black'>
                         <div className='w-full group-focus-within:hidden '>Join a Trip party</div>
                         <div className='w-full justify-around items-center hidden group-focus-within:flex'>
                             <input className='w-2/4 px-4 py-2 font-Clash rounded-lg text-base ' placeholder='Enter the party code ' onChange={(e) => {
@@ -83,7 +83,7 @@ function Trip() {
                     </button>
                 </div>
             </div>
-            <div className=' h-[65%] flex justify-between '>
+            <div className=' md:h-[65%] flex flex-col md:flex-row justify-between '>
 
                 <div className=' w-full md:w-[65%] bg-white dark:bg-[#353148] rounded-xl md:rounded-2xl h-full border border-black'>
                     <h1 className='w-full text-center font-bold text-base md:text-lg lg:text-2xl pt-2'>Last 10 Trips</h1>
