@@ -59,7 +59,7 @@ function Spending() {
                 </div>
                 <div className='w-2/3 h-full flex flex-col justify-center px-2  md:px-5'>
                     <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Total Spendings</h1>
-                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹{total}</h1>
+                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] lg:text-[1.2vw] text-slate-400'>₹{total}</h1>
                 </div>
                 <button className='absolute top-0 md:top-1 right-1 md:right-3 text-[1.5vw] md:text-[1.2vw] group/main text-end font-medium text-red-600 md:text-slate-400 p-1 cursor-pointer'>
                     Lifetime
@@ -91,7 +91,7 @@ function Spending() {
                 </div>
                 <div className=' w-2/3  h-full flex flex-col justify-center'>
                     <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Last month Spendings</h1>
-                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹{month}</h1>
+                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] lg:text-[1.2vw] text-slate-400'>₹{month}</h1>
                 </div>
             </div>
             <div className='col-span-4 bg-white dark:bg-[#353148] h-full rounded-xl md:rounded-2xl flex gap-3 items-center md:py-6 md:px-5 border border-black'>
@@ -100,7 +100,7 @@ function Spending() {
                 </div>
                 <div className=' w-2/3 h-full flex flex-col justify-center' >
                     <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Total trip Spendings</h1>
-                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹{trip}</h1>
+                    <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] lg:text-[1.2vw] text-slate-400'>₹{trip}</h1>
                 </div>
             </div>
         </div>
