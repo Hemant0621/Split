@@ -1,6 +1,6 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
-const { Account, Partygroup } = require('../db');
+const { Account,  Party } = require('../db');
 const { default: mongoose } = require('mongoose');
 
 const router = express.Router();
@@ -59,40 +59,50 @@ router.post('/', authMiddleware, async (req, res) => {
 
 router.post('/amount', authMiddleware, async (req, res) => {
 
-    const start = req.body.start;
-    const end = req.body.end;
+    try {
+        const start = req.body.start;
+        const end = req.body.end;
+        const userId = new mongoose.Types.ObjectId(req.userId)
 
-    const amount = await Account.find({
-        userId: req.userId,
-        date: {
-            "$gt": start,
-            "$lt": end
-        }
-    })
-
-    var total = 0
-
-    amount.map((price) => {
-        total += parseInt(price.price)
-    })
-
-    const trip = await Partygroup.aggregate([
-        {
-            $group : {
-                _id : null,
-                total : { $sum : '$total'}
+        const amount = await Account.find({
+            userId: req.userId,
+            date: {
+                "$gt": start,
+                "$lt": end
             }
-        }
-    ])
+        })
 
-    const triptotal = trip[0].total
+        var total = 0
 
-    return res.send({
-        total,
-        amount,
-        triptotal
-    })
+        amount.map((price) => {
+            total += parseInt(price.price)
+        })
 
+        const trip = await Party.aggregate([
+            {
+                $match: {
+                    userId
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: '$total' }
+                }
+            }
+        ])
+
+        const triptotal = trip[0].total
+
+        return res.send({
+            total,
+            amount,
+            triptotal
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 router.post('/monthly', authMiddleware, async (req, res) => {

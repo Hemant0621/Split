@@ -6,9 +6,9 @@ import { useRecoilState } from 'recoil'
 
 function Spending() {
 
-    const [total, settotal] = useState(0)
-    const [month, setmonth] = useState(0)
-    const [trip, settrip] = useState(0)
+    const [total, settotal] = useState('loading...')
+    const [month, setmonth] = useState('loading...')
+    const [trip, settrip] = useState('loading...')
     const today = new Date()
     const [startdate, setSartDate] = useState(new Date(new Date().getDate()))
     const [enddate, setEndDate] = useState(today)
