@@ -99,7 +99,7 @@ function Spending() {
                     <img className='w-full h-full' src="/travel-bag.png" alt="" />
                 </div>
                 <div className=' w-2/3 h-full flex flex-col justify-center' >
-                    <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Last trip Spendings</h1>
+                    <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Total trip Spendings</h1>
                     <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] text-slate-400'>₹{trip}</h1>
                 </div>
             </div>

@@ -30,7 +30,7 @@ function Trip() {
 
 
     return (
-        <div className='border-2 ml-5 md:h-5/6 rounded-lg px-5 flex flex-col justify-around'>
+        <div className=' md:h-5/6 rounded-lg px-5 flex flex-col justify-around'>
             <div className=' md:h-[30%] flex md:flex-row flex-col-reverse justify-around'>
                 <div className='border-2 h-full md:w-[68%]'>
 
