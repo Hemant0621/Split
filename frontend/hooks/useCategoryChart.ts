@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
-const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Array<String>, color : String, dark : boolean) => {
+const useCategoryECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Array<String>, color : String, dark : boolean) => {
 
     const [font , setfont ] = useState(15)
     
@@ -92,4 +92,4 @@ const useECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Arra
     }, [chartRef, data, daysArray, color, dark]);
 };
 
-export default useECharts;
+export default useCategoryECharts;

@@ -40,9 +40,9 @@ function Additem({ setadditem , url }: { setadditem: Function , url: string }) {
                         <label htmlFor="type" className="block text-black dark:text-white text-xl md:text-2xl lg:text-3xl text-left w-full font-bold mb-2">Type</label>
                         <select className='bg-white dark:text-black p-1 py-2 md:p-3  rounded-lg border border-red-600' value={type} onChange={(e) => settype(e.target.value)}>
                             <option value="">Select Type</option>
-                            <option value="daily item">Food</option>
-                            <option value="Staitionary">Staitionary</option>
+                            <option value="Food">Food</option>
                             <option value="Travel">Travel</option>
+                            <option value="Hotel">Hotel</option>
                             <option value="Enternainment">Entertainment</option>
                             <option value="Daily care">Daily care</option>
                             <option value="Clothing">clothing</option>

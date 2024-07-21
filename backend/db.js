@@ -91,7 +91,20 @@ const PartygroupSchema = new mongoose.Schema({
         type: mongoose.Types.Decimal128,
         require : true
     },
-    date:Date
+    date:Date,
+    expenses:[
+        {
+            category : {
+                type : String,
+                require : true
+            },
+            price : {
+                type : mongoose.Types.Decimal128,
+                require : true
+            }
+        }
+    ]
+    
 })
 
 const User = mongoose.model('User', userSchema); 

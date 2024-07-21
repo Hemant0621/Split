@@ -1,6 +1,7 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
 const { Party, User, Partygroup } = require('../db');
+const { default: mongoose } = require('mongoose');
 
 const router = express.Router();
 
@@ -11,27 +12,27 @@ router.get('/trip', authMiddleware, async (req, res) => {
         const group = await Partygroup.findOne({
             Id
         })
-        
+
         const parties = await Party.find({
             Id
         })
 
-        const userId = parties.map(party=>party.userId)
-        
-        const users = await User.find({
-             _id : { $in : userId}
-            },{
-                password:0
-            })
+        const userId = parties.map(party => party.userId)
 
-        const partyuser = parties.map((party)=>{
+        const users = await User.find({
+            _id: { $in: userId }
+        }, {
+            password: 0
+        })
+
+        const partyuser = parties.map((party) => {
             return {
                 ...party.toObject(),
-                user:users.filter(user=>user._id.toString()==party.userId.toString())
+                user: users.filter(user => user._id.toString() == party.userId.toString())
             }
         })
 
-        res.send({group,partyuser})
+        res.send({ group, partyuser })
 
     } catch (error) {
         res.send({ error })
@@ -68,6 +69,7 @@ router.get('/', authMiddleware, async (req, res) => {
 
 router.post('/add', authMiddleware, async (req, res) => {
     const amount = req.body.price
+    const category = req.body.type
     const Id = req.body.Id
 
     try {
@@ -81,14 +83,22 @@ router.post('/add', authMiddleware, async (req, res) => {
         await Partygroup.updateOne({
             Id
         }, {
-           $inc: { total: amount }
+            $inc: { total: amount }
         })
-
+        
+        await Partygroup.updateOne(
+            { Id, "expenses.category": category },
+            {
+                $inc: {
+                    "expenses.$.price": amount
+                }
+            }
+        );
         return res.send({
             message: "done"
         })
     } catch (error) {
-        console.log("error")
+        console.log(error)
     }
 
 })
@@ -114,15 +124,24 @@ router.post('/split', authMiddleware, async (req, res) => {
             Id,
             userId: req.userId
         }, {
-            $inc: { balance: amount , total: amount },
+            $inc: { balance: amount, total: amount },
 
         })
 
         await Partygroup.updateOne({
             Id
         }, {
-           $inc: { total: amount }
+            $inc: { total: amount }
         })
+
+        await Partygroup.updateOne(
+            { Id, "expenses.category": category },
+            {
+                $inc: {
+                    "expenses.$.price": amount
+                }
+            }
+        );
 
         const count = await Party.countDocuments({
             Id
@@ -136,7 +155,7 @@ router.post('/split', authMiddleware, async (req, res) => {
             }
         })
 
-        console.log({count,user})
+        console.log({ count, user })
 
         return res.send({
             user
@@ -164,7 +183,38 @@ router.post('/create', authMiddleware, async (req, res) => {
             Id: party.Id,
             location: body.location,
             total: 0,
-            date
+            date,
+            expenses: [
+                {
+                    category: "Food",
+                    price: 0
+                },
+                {
+                    category: "Travel",
+                    price: 0
+                },
+                {
+                    category: "Hotel",
+                    price: 0
+                },
+                {
+                    category: "Enternainment",
+                    price: 0
+                },
+                {
+                    category: "Daily care",
+                    price: 0
+                },
+                {
+                    category: "Clothing",
+                    price: 0
+                },
+                {
+                    category: "Miscellaneus",
+                    price: 0
+                },
+
+            ]
         })
 
         return res.send({
@@ -210,7 +260,7 @@ router.post('/join', authMiddleware, async (req, res) => {
             Id: body.Id,
             userId: req.userId,
             balance: 0,
-            total:0
+            total: 0
         })
 
         return res.send({
@@ -243,7 +293,7 @@ router.get('/settle', authMiddleware, async (req, res) => {
             if (balance > 0) {
                 receivers.push({ user, amount: balance });
             } else if (balance < 0) {
-                payers.push({ user, amount: -balance }); // Store as positive value
+                payers.push({ user, amount: -balance });
             }
         }
 
