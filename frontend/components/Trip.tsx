@@ -1,15 +1,16 @@
 import { DATABASE_URL } from '@/config'
+import useCategoryECharts from '@/hooks/useCategoryChart';
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 function Trip() {
-
+    const chartRef = useRef(null);
     const [code, setcode] = useState('')
     const [Avg, setAvg] = useState('loading...')
     const [trips, settrips] = useState([])
     const [destination, setdestination] = useState('')
 
-
+    useCategoryECharts(chartRef)
     useEffect(() => {
 
         async function result() {
@@ -140,7 +141,9 @@ function Trip() {
                     </div>
                 </div>
 
-                <div ref={chartRef}  className='w-full md:w-[34%] bg-white rounded-xl border border-black'></div>
+                <div  className='w-full md:w-[34%] h-[30rem] md:h-full bg-white rounded-xl p-2 mt-5 md:mt-0 border border-black flex justify-center items-center'>
+                    <div ref={chartRef} className='w-full h-full rounded-xl'></div>
+                </div>
 
             </div>
         </div>

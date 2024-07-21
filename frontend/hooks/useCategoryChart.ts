@@ -1,95 +1,84 @@
 import { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
-const useCategoryECharts = (chartRef : any, data : Array<Float32Array>, daysArray : Array<String>, color : String, dark : boolean) => {
+const useCategoryECharts = (chartRef : any) => {
 
     const [font , setfont ] = useState(15)
     
     useEffect(() => {
-        if (chartRef.current && data.length > 0) {
+        if (chartRef.current) {
             if(window.screen.width<500){
                 setfont(7)
             }
             const myChart = echarts.init(chartRef.current);
 
             myChart.setOption({
+                backgroundColor: 'white',
                 title: {
-                    text: 'Monthly Expenses',
-                    left: 'center',
-                    textStyle: {
-                        color: color,
-                        fontSize: font+8,
-                        fontWeight: 'bold',
-                        fontFamily: 'clash'
-                    }
+                  text: 'Category Purchases',
+                  left: 'center',
+                  top: 20,
+                  textStyle: {
+                    color: '#ccc'
+                  }
                 },
                 tooltip: {
-                    show: true,
-                    trigger: 'axis',
-                    backgroundColor: dark ? 'rgb(53, 49, 72,1)' : 'rgb(243, 170, 78)',
-                    textStyle: {
-                        color: 'white',
-                        fontSize: font+5,
-                        fontWeight: 'light',
-                        fontFamily: 'clash'
-                    }
+                  trigger: 'item'
                 },
-                xAxis: {
-                    type: 'category',
-                    data: daysArray,
-                    axisLine: {
-                        lineStyle: {
-                            color: color
-                        }
-                    },
-                    axisLabel: {
-                        color: color,
-                        fontSize: font,
-                        fontFamily: 'clash'
-                    }
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLine: {
-                        lineStyle: {
-                            color: color
-                        }
-                    },
-                    axisLabel: {
-                        color: color,
-                        fontSize: font,
-                        fontFamily: 'clash'
-                    }
+                visualMap: {
+                  show: false,
+                  min: 10,
+                  max: 1000,
+                  inRange: {
+                    colorLightness: [0, 1]
+                  }
                 },
                 series: [
-                    {
-                        name: 'Expenses',
-                        type: 'line',
-                        smooth: true,
-                        data: data,
-                        lineStyle: {
-                            color: '#73C0DE',
-                            width: 3
-                        },
-                        itemStyle: {
-                            color: '#73C0DE'
-                        },
-                        label: {
-                            show: true,
-                            position: 'top',
-                            color: color,
-                            fontSize: font,
-                            fontFamily: 'clash'
-                        }
+                  {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '50%'],
+                    data: [
+                      { value: 335, name: 'Direct' },
+                      { value: 310, name: 'Email' },
+                      { value: 274, name: 'Union Ads' },
+                      { value: 235, name: 'Video Ads' },
+                      { value: 400, name: 'Search Engine' }
+                    ].sort(function (a, b) {
+                      return a.value - b.value;
+                    }),
+                    roseType: 'radius',
+                    label: {
+                      color: 'rgba(0, 0, 0, 1)'
+                    },
+                    labelLine: {
+                      lineStyle: {
+                        color: 'rgba(0, 0, 0, .3)'
+                      },
+                      smooth: 0.2,
+                      length: 10,
+                      length2: 20
+                    },
+                    itemStyle: {
+                      color: '#111820',
+                      shadowBlur: 200,
+                      shadowColor: 'rgba(0, 0, 0, 0)'
+                    },
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function () {
+                      return Math.random() * 600;
                     }
+                  }
                 ]
-            });
+              });
 
             return () => {
                 myChart.dispose();
             };
         }
-    }, [chartRef, data, daysArray, color, dark]);
+    }, [chartRef]);
 };
 
 export default useCategoryECharts;

@@ -41,7 +41,7 @@ router.get('/trip', authMiddleware, async (req, res) => {
 
 
 router.get('/', authMiddleware, async (req, res) => {
-    try {
+    try {1
 
         const parties = await Party.find({ userId: req.userId });
 
@@ -59,6 +59,12 @@ router.get('/', authMiddleware, async (req, res) => {
                 partyGroups: partyGroups.filter(group => group.Id === party.Id)
             };
         });
+
+        const data = []
+
+        partyGroups.map((party)=>{
+            
+        })
 
         return res.send({ results });
     } catch (error) {
@@ -107,6 +113,7 @@ router.post('/add', authMiddleware, async (req, res) => {
 router.post('/split', authMiddleware, async (req, res) => {
 
     const amount = req.body.price
+    const category = req.body.type
     const Id = req.body.Id
 
     try {
@@ -120,11 +127,15 @@ router.post('/split', authMiddleware, async (req, res) => {
             })
         }
 
+        const count = await Party.countDocuments({
+            Id
+        })
+        
         await Party.updateOne({
             Id,
             userId: req.userId
         }, {
-            $inc: { balance: amount, total: amount },
+            $inc: { balance: amount, total: (amount/count).toFixed(2) },
 
         })
 
@@ -143,9 +154,6 @@ router.post('/split', authMiddleware, async (req, res) => {
             }
         );
 
-        const count = await Party.countDocuments({
-            Id
-        })
 
         const user = await Party.updateMany({
             Id
