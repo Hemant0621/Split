@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
-const useCategoryECharts = (chartRef : any) => {
+const useCategoryECharts = (chartRef : any , data : [{name : string , value : number}]) => {
 
     const [font , setfont ] = useState(15)
     
     useEffect(() => {
-        if (chartRef.current) {
+        if (chartRef.current && data[0].value>0) {
             if(window.screen.width<500){
                 setfont(7)
             }
+            const len = data.length-1
             const myChart = echarts.init(chartRef.current);
-
+            console.log(data)
             myChart.setOption({
                 backgroundColor: 'white',
                 title: {
@@ -27,10 +28,10 @@ const useCategoryECharts = (chartRef : any) => {
                 },
                 visualMap: {
                   show: false,
-                  min: 10,
-                  max: 1000,
+                  min: data.sort()[0].value*0.9,
+                  max: data.sort()[len].value*1.1,
                   inRange: {
-                    colorLightness: [0, 1]
+                    colorLightness: [0.2, 0.8]
                   }
                 },
                 series: [
@@ -39,13 +40,7 @@ const useCategoryECharts = (chartRef : any) => {
                     type: 'pie',
                     radius: '55%',
                     center: ['50%', '50%'],
-                    data: [
-                      { value: 335, name: 'Direct' },
-                      { value: 310, name: 'Email' },
-                      { value: 274, name: 'Union Ads' },
-                      { value: 235, name: 'Video Ads' },
-                      { value: 400, name: 'Search Engine' }
-                    ].sort(function (a, b) {
+                    data: data.sort(function (a, b) {
                       return a.value - b.value;
                     }),
                     roseType: 'radius',
@@ -78,7 +73,7 @@ const useCategoryECharts = (chartRef : any) => {
                 myChart.dispose();
             };
         }
-    }, [chartRef]);
+    }, [chartRef , data]);
 };
 
 export default useCategoryECharts;

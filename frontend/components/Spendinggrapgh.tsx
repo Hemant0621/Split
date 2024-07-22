@@ -15,6 +15,7 @@ function Spendinggraph() {
     const [startdate, setStartDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
     const [enddate, setEndDate] = useState(new Date(today.getFullYear(), today.getMonth() + 1, 1));
     const [type, setType] = useState('');
+    const [name , setname] = useState('year')
     const [past, setpast] = useState([])
 
     const { loading, data, daysArray } = useFetchData(type, startdate, enddate);
@@ -47,10 +48,10 @@ function Spendinggraph() {
             <div className='relative w-full flex justify-center pt-3 md:w-7/12 h-[40rem] md:h-full bg-white dark:bg-[#353148] rounded-xl md:rounded-2xl border border-black'>
                 <div ref={chartRef} className="w-full h-full pl-2 " ></div>
                 <button className='absolute top-3 right-2 md:right-6 group/main text-end text-sm md:text-base lg:text-lg font-medium text-red-700 md:text-slate-400 p-1 cursor-pointer'>
-                    Year
+                    {name}
                     <div className='text-slate-800 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] dark:text-white w-40 flex-col gap-3 p-3 items-center -left-28 md:-left-10 text-center rounded-lg hidden group-focus-within/main:flex z-20'>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => setType('')}>Year</h1>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => { setStartDate(new Date(today.getFullYear(), today.getMonth(), 1)); setEndDate(new Date(today.getFullYear(), today.getMonth() + 1, 1)); setType('month') }}>Month</h1>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => {setType('') ; setname('year')}}>Year</h1>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => { setStartDate(new Date(today.getFullYear(), today.getMonth(), 1)); setEndDate(new Date(today.getFullYear(), today.getMonth() + 1, 1)); setType('month'); setname('month') }}>Month</h1>
                         <button className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full group/sub'>
                             Custom
                             <div className=' text-slate-800 shadow-md shadow-black absolute -left-48 md:-left-20 lg:left-5 bg-[#f3aa4e] dark:bg-[#353148] gap-3 p-3 items-center text-center rounded-lg hidden group-focus-within/sub:flex z-20'>
@@ -62,7 +63,7 @@ function Spendinggraph() {
                                     <label htmlFor="endDate" className="block text-black dark:text-white text-base md:lg lg:text-xl text-left w-full font-medium">End Date</label>
                                     <input type='date' className='w-full md:p-2 border border-black rounded-lg' placeholder='End Date' onChange={(e) => setEndDate(new Date(e.target.value))} />
                                 </div>
-                                <button onClick={() => setType('custom')} className='rounded-xl py-1 px-3 md:py-2 md:px-5 bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] dark:text-white'>Apply</button>
+                                <button onClick={() => {setType('custom') ; setname('custom')}} className='rounded-xl py-1 px-3 md:py-2 md:px-5 bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] dark:text-white'>Apply</button>
                             </div>
                         </button>
                     </div>

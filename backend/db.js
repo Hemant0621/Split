@@ -14,10 +14,10 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         minLength: 3,
     },
-    username:{
-        type:String,
+    username: {
+        type: String,
         required: true,
-        trim:true
+        trim: true
     },
     password: {
         type: String,
@@ -38,82 +38,82 @@ const userSchema = new mongoose.Schema({
 });
 
 const PartySchema = new mongoose.Schema({
-    Id : {
-        type : String,
-        require : true,
+    Id: {
+        type: String,
+        require: true,
     },
-    userId:{
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require : true
+        require: true
     },
-    balance:{
+    balance: {
         type: mongoose.Types.Decimal128,
-        require : true
+        require: true
     },
-    total:{
+    total: {
         type: mongoose.Types.Decimal128,
-        require : true
+        require: true
     },
+    expenses: [
+        {
+            category: {
+                type: String,
+                require: true
+            },
+            price: {
+                type: mongoose.Types.Decimal128,
+                require: true
+            }
+        }
+    ]
 })
 
 const AccountSchema = new mongoose.Schema({
-    userId:{
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require : true
+        require: true
     },
-    heading:{
-        type:String,
-        require:true
+    heading: {
+        type: String,
+        require: true
     },
-    type:{
-        type:String,
-        require:true
+    type: {
+        type: String,
+        require: true
     },
-    price : {
+    price: {
         type: mongoose.Types.Decimal128,
-        require : true
+        require: true
     },
-    date : {
+    date: {
         type: Date,
-        require:true
+        require: true
     }
 })
 
 const PartygroupSchema = new mongoose.Schema({
-    Id : {
-        type:String,
-        ref:'Party'
+    Id: {
+        type: String,
+        ref: 'Party'
     },
-    location : String,
-    total : {
+    location: String,
+    total: {
         type: mongoose.Types.Decimal128,
-        require : true
+        require: true
     },
-    date:Date,
-    expenses:[
-        {
-            category : {
-                type : String,
-                require : true
-            },
-            price : {
-                type : mongoose.Types.Decimal128,
-                require : true
-            }
-        }
-    ]
-    
+    date: Date
+
 })
 
-const User = mongoose.model('User', userSchema); 
+const User = mongoose.model('User', userSchema);
 const Party = mongoose.model('Party', PartySchema);
 const Partygroup = mongoose.model('Partygroup', PartygroupSchema);
 const Account = mongoose.model('Account', AccountSchema);
 
 module.exports = {
-	User,   
+    User,
     Party,
     Account,
     Partygroup

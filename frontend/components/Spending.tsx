@@ -13,6 +13,7 @@ function Spending() {
     const [startdate, setSartDate] = useState(new Date(new Date().getDate()))
     const [enddate, setEndDate] = useState(today)
     const [loading, setloading] = useRecoilState(loadingState)
+    const [name , setname] = useState('Lifetime')
 
     useEffect(() => {
 
@@ -39,6 +40,7 @@ function Spending() {
 
             settotal(total.data.total)
             setmonth(month.data.total)
+            console.log(month.data.triptotal)
             settrip(month.data.triptotal.$numberDecimal)
             setloading(false)
         }
@@ -62,12 +64,12 @@ function Spending() {
                     <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] lg:text-[1.2vw] text-slate-400'>₹{total}</h1>
                 </div>
                 <button className='absolute top-0 md:top-1 right-1 md:right-3 text-[1.5vw] md:text-[1.2vw] group/main text-end font-medium text-red-600 md:text-slate-400 p-1 cursor-pointer'>
-                    Lifetime
+                    {name}
                     <div className='text-slate-800 z-20 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] dark:text-white w-32 md:w-40 flex-col gap-3 p-3 items-center left-10 md:-left-10 text-center rounded-lg hidden group-focus-within/main:flex'>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(new Date().getDate())); setEndDate(today) }} >Lifetime</h1>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7)) }} >Last 7 days</h1>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(today.getFullYear(), today.getMonth(), 1)) }} >This month</h1>
-                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(today.getFullYear(), 1, 1)) }} >Ths year</h1>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(new Date().getDate())); setEndDate(today) ; setname('Lifetime') }} >Lifetime</h1>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7)) ; setname('Last 7 days') }} >Last 7 days</h1>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(today.getFullYear(), today.getMonth(), 1)) ;setname('This month') }} >This month</h1>
+                        <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(today.getFullYear(), 1, 1)) ; setname('This year')}} >Ths year</h1>
                         <button className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36 group/sub'>
                             Custom
                             <div className='text-slate-800 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] gap-3 p-3 items-center text-center rounded-lg hidden group-focus-within/sub:flex'>
@@ -79,7 +81,6 @@ function Spending() {
                                     <label htmlFor="endDate" className="block text-black dark:text-white text-[1.5vw] text-left w-full font-medium">End Date</label>
                                     <input onChange={(e) => { setEndDate(new Date(e.target.value)) }} type='date' className='w-full p-2 border border-black rounded-lg' placeholder='End Date' />
                                 </div>
-                                <button className='rounded-xl py-2 px-5 bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] dark:text-white'>Apply</button>
                             </div>
                         </button>
                     </div>

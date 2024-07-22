@@ -1,51 +1,67 @@
 import { DATABASE_URL } from '@/config'
 import useCategoryECharts from '@/hooks/useCategoryChart';
+import useTrips from '@/hooks/useTrips';
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 
 function Trip() {
     const chartRef = useRef(null);
     const [code, setcode] = useState('')
-    const [Avg, setAvg] = useState('loading...')
-    const [trips, settrips] = useState([])
+    const [type, settype] = useState('avg')
     const [destination, setdestination] = useState('')
-
-    useCategoryECharts(chartRef)
-    useEffect(() => {
-
-        async function result() {
-
-            const response = await axios.get(`${DATABASE_URL}/party`, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-            if (response.data.results) {
-                console.log(response.data.results)
-                settrips(response.data.results)
-                let total = 0
-                let count = 0
-                response.data.results.map((trip: { total: { $numberDecimal: string } , balance : { $numberDecimal: string }  }) => {
-                    total = total + parseInt(trip.total.$numberDecimal) - parseInt(trip.balance.$numberDecimal)
-                    count++;
-                })
-                setAvg((total / count).toFixed(2).toString())
-            }
-        }
-
-        result()
-    }, [])
-
-
+    const { Avg,Total,Count,Expensive,trips,data } = useTrips(type);
+    useCategoryECharts(chartRef, data)
 
     return (
-        <div className=' md:h-5/6 px-5 flex flex-col justify-around bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear'>
-            <div className=' md:h-[30%] flex md:flex-row flex-col-reverse justify-around'>
-                <div className='border-2 h-full md:w-[68%]'>
-                    {Avg}
+        <div className=' md:h-5/6 px-5 flex flex-col gap-3 justify-around bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear'>
+            <div className=' md:h-[30%] flex gap-3 md:flex-row flex-col-reverse justify-around'>
+                <div className='h-full md:w-[68%]'>
+                    <div className=' md:h-full w-full flex flex-col gap-2 justify-between items-center '>
+                        <div className='h-[49%] w-full flex justify-between'>
+                            <div className='h-full w-[49%] bg-white dark:bg-[#353148] rounded-lg border border-black flex items-center justify-around'>
+                                <div className=' w-1/4 md:w-[5vw] lg:w-[4vw]  bg-[#f54f5f] ml-1 rounded-lg md:rounded-2xl p-2 m-2'>
+                                    <img className='w-full h-full p-1' src="/average.png" alt="" />
+                                </div>
+                                <div className=' w-2/3  h-full flex flex-col justify-center'>
+                                    <h1 className=' font-bold text-[3.5vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Average trip Expense</h1>
+                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{Avg}</h1>
+                                </div>
+                            </div>
+                            <div className='h-full w-[49%] bg-white dark:bg-[#353148] rounded-lg border border-black flex items-center justify-around'>
+                                <div className='w-1/4 md:w-[5vw] lg:w-[4vw]  bg-[#27d095] rounded-lg ml-1 md:rounded-2xl p-2 m-2'>
+                                    <img className='w-full h-full' src="/spending.png" alt="" />
+                                </div>
+                                <div className=' w-2/3  h-full flex flex-col justify-center'>
+                                    <h1 className=' font-bold text-[3.5vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Total expense</h1>
+                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{Total}</h1>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='h-[49%] w-full flex  justify-between'>
+                            <div className='h-full w-[49%] bg-white dark:bg-[#353148] rounded-lg border border-black flex items-center justify-around'>
+                                <div className=' w-1/4 md:w-[5vw] lg:w-[4vw]  bg-[#67cadf] ml-1 rounded-lg md:rounded-2xl p-2 m-2'>
+                                    <img className='w-full h-full' src="/location.png" alt="" />
+                                </div>
+                                <div className=' w-2/3  h-full flex flex-col justify-center'>
+                                    <h1 className=' font-bold text-[3.5vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Total trips</h1>
+                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{Count}</h1>
+                                </div>
+                            </div>
+                            <div className='h-full w-[49%] bg-white dark:bg-[#353148] rounded-lg border border-black flex items-center justify-around'>
+                                <div className=' w-1/4 md:w-[5vw] lg:w-[4vw]  bg-[#ff9f60] ml-1 rounded-lg md:rounded-2xl p-2 m-2'>
+                                    <img className='w-full h-full' src="/date.png" alt="" />
+                                </div>
+                                <div className=' w-2/3  h-full flex flex-col justify-center'>
+                                    <h1 className=' font-bold text-[3vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Expensive Category</h1>
+                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{Expensive}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className=' h-full w-full md:w-[30%] flex gap-2 flex-col justify-around'>
-                    <button className='w-full py-3 md:h-[45%] group rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'>
+                <div className=' h-full w-full md:w-[30%] flex gap-3 flex-col justify-between '>
+                    <button className='w-full md:h-[49%] py-5 group rounded-xl bg-[#32ed80] hover:bg-[#11c15b] font-bold font-Clash border border-black'>
                         <div className='w-full group-focus-within:hidden '>Create a Trip party</div>
                         <div className='w-full justify-around items-center hidden group-focus-within:flex'>
                             <input className='w-2/4 px-4 py-2 font-Clash rounded-lg text-base ' placeholder='Enter the Location ' onChange={(e) => {
@@ -68,7 +84,7 @@ function Trip() {
                             >Create</div>
                         </div>
                     </button>
-                    <button className='w-full py-3 md:h-[45%] rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash border border-black'>
+                    <button className='w-full  md:h-[49%] py-5 rounded-xl bg-[#91baff] hover:bg-[#448aff] group font-bold font-Clash border border-black'>
                         <div className='w-full group-focus-within:hidden '>Join a Trip party</div>
                         <div className='w-full justify-around items-center hidden group-focus-within:flex'>
                             <input className='w-2/4 px-4 py-2 font-Clash rounded-lg text-base ' placeholder='Enter the party code ' onChange={(e) => {
@@ -141,8 +157,25 @@ function Trip() {
                     </div>
                 </div>
 
-                <div  className='w-full md:w-[34%] h-[30rem] md:h-full bg-white rounded-xl p-2 mt-5 md:mt-0 border border-black flex justify-center items-center'>
-                    <div ref={chartRef} className='w-full h-full rounded-xl'></div>
+                <div className='relative w-full md:w-[34%] h-[30rem] md:h-full bg-white rounded-xl p-2 mt-5 md:mt-0 border border-black flex justify-center items-center'>
+                    {data[0].value == 0
+                        ?
+                        <div className='flex justify-center items-center h-full w-full'>
+                            <div className="inline-flex items-center px-4 py-2 bg-[#f3aa4e] dark:bg-[#111820] hover:bg-[#ff9b20] dark:hover:bg-[#090c10] dark:text-white transition ease-in-out delay-75 text-black text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110 cursor-pointer">
+                                No transaction
+                            </div>
+                        </div>
+                        :
+                        <>
+                            <div ref={chartRef} className='w-full h-full rounded-xl'></div>
+                            <button className='absolute top-3 right-2 md:right-6 group text-end text-sm md:text-base lg:text-lg font-medium text-red-700 md:text-slate-400 p-1 cursor-pointer z-20 '>
+                                {type}
+                                <div className='text-slate-800 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] dark:text-white w-40 flex-col gap-3 p-3 items-center right-0 text-center rounded-lg hidden group-focus-within:flex z-30'>
+                                    <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => settype('total')} >Total</h1>
+                                    <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg px-2 md:px-4 py-2 md:py-2 w-full' onClick={() => settype('avg')} >Avg</h1>
+                                </div>
+                            </button>
+                        </>}
                 </div>
 
             </div>

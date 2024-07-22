@@ -83,7 +83,7 @@ function Party() {
               </div>
               <div className=' w-2/3  h-full flex flex-col justify-center'>
                 <h1 className=' font-bold text-[3.5vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Date</h1>
-                <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{new Date(group.date).toLocaleDateString()}</h1>
+                <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{group.date=='loading...'?'loading...':new Date(group.date).toLocaleDateString()}</h1>
               </div>
             </div>
           </div>
@@ -191,7 +191,6 @@ function Party() {
               >
                 Settle The payments
               </button>
-
             </div>}
         </div>
       </div>
