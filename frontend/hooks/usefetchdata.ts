@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { loadingState } from './darkmode';
+import { DATABASE_URL } from '@/config';
 
 const useFetchData = (type : String, startdate : Date, enddate : Date , Refresh : boolean) => {
     const [loading, setLoading] = useRecoilState(loadingState);
@@ -12,7 +13,7 @@ const useFetchData = (type : String, startdate : Date, enddate : Date , Refresh 
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('https://split-backend-five.vercel.app/api/account/monthly', {
+                const response = await axios.post(`${DATABASE_URL}/account/monthly`, {
                     type,
                     startdate,
                     enddate
