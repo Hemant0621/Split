@@ -4,7 +4,7 @@ import Message from './Message'
 import { useParams } from 'next/navigation'
 
 
-function Additem({ setadditem , url }: { setadditem: Function , url: string }) {
+function Additem({ setadditem , url , Refresh , setRefresh}: { setadditem: Function , url: string , Refresh : boolean , setRefresh : Function }) {
 
     const [show, setshow] = useState(false)
     const [heading, setheading] = useState('')
@@ -75,6 +75,7 @@ function Additem({ setadditem , url }: { setadditem: Function , url: string }) {
                             setprice('')
                             settype("")
                             setheading("")
+                            setRefresh(!Refresh)
                         }}
                     >
                         {loading ? "Adding..." : " Add item"}

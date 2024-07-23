@@ -17,8 +17,9 @@ function Spendinggraph() {
     const [type, setType] = useState('');
     const [name , setname] = useState('year')
     const [past, setpast] = useState([])
+    const [Refresh , setRefresh] = useState(true)
 
-    const { loading, data, daysArray } = useFetchData(type, startdate, enddate);
+    const { loading, data, daysArray } = useFetchData(type, startdate, enddate , Refresh);
     useECharts(chartRef, data, daysArray, color, dark);
 
     useEffect(() => {
@@ -33,7 +34,7 @@ function Spendinggraph() {
 
         result()
 
-    }, [])
+    }, [Refresh])
 
     if (loading) {
         return (
@@ -91,11 +92,26 @@ function Spendinggraph() {
                             date : string,
                             _id : string
                         }) => (
-                            <div key={item._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300 border border-black'>
-                                <h1 className='w-1/4 text-left text-xs md:text-sm break-words px-1'>{item.heading}</h1>
-                                <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{item.type}</h1>
-                                <h1 className='w-1/4 text-center text-xs md:text-sm break-words px-1'>{item.price.$numberDecimal.toString()}</h1>
-                                <h1 className='w-1/4 text-right text-xs md:text-sm break-words px-1'>{item.date.split('T')[0]}</h1>
+                            <div key={item._id} className=' relative min-h-10 flex justify-between items-center group w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300 border border-black'>
+                                <h1 className='w-1/4 text-left group-hover:hidden text-xs md:text-sm break-words px-1'>{item.heading}</h1>
+                                <h1 className='w-1/4 text-center group-hover:hidden text-xs md:text-sm break-words px-1'>{item.type}</h1>
+                                <h1 className='w-1/4 text-center group-hover:hidden text-xs md:text-sm break-words px-1'>{item.price.$numberDecimal.toString()}</h1>
+                                <h1 className='w-1/4 text-right group-hover:hidden text-xs md:text-sm break-words px-1'>{item.date.split('T')[0]}</h1>
+                                <button className='w-[94%] z-10 my-5 absolute hidden group-hover:block text-center font-medium text-xs md:text-sm break-words px-1 bg-black text-white rounded-lg  py-1'
+                                    onClick={async()=>{
+                                        const check = confirm(`DO you want to delete your ${item.heading} `)
+                                        if(check){
+                                            const response = await axios.delete(`${DATABASE_URL}/account/past`,{
+                                                params : {
+                                                    Id:item._id
+                                                }
+                                            })
+                                            if(response.data=="deleted"){
+                                                setRefresh(!Refresh)
+                                            }
+                                        }
+                                    }}
+                                    >Delete</button>
                             </div>
                         )):<div className='text-center font-medium text-base md:text-xl'>No Purchases yet</div>}
 

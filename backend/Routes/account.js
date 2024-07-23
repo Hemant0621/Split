@@ -1,6 +1,6 @@
 const express = require('express');
 const { authMiddleware } = require('../middleware');
-const { Account,  Party } = require('../db');
+const { Account, Party } = require('../db');
 const { default: mongoose } = require('mongoose');
 
 const router = express.Router();
@@ -87,12 +87,17 @@ router.post('/amount', authMiddleware, async (req, res) => {
             {
                 $group: {
                     _id: null,
-                    total: { $sum: '$total' }
+                    total: { $sum: { $sum: ["$total", "$balance"] } }
+                }
+            },
+            {
+                $project: {
+                    total: { $toDouble: "$total" }
                 }
             }
         ])
 
-        const triptotal = trip.length>0?trip[0].total:{'$numberDecimal':0}
+        const triptotal = trip.length > 0 ? trip[0].total : { '$numberDecimal': 0 }
 
         return res.send({
             total,
@@ -209,5 +214,23 @@ router.post('/monthly', authMiddleware, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 })
+
+router.delete('/past', async (req, res) => {
+    try {
+
+        const Id = req.query.Id;
+        const deleted = await Account.deleteOne({
+                _id : Id
+            })
+        
+        if(deleted){
+            res.send("deleted")
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 module.exports = router

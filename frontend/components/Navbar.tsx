@@ -16,7 +16,7 @@ function Navbar() {
 
     const [username, setusername] = useState('')
     const [additem, setadditem] = useState(false)
-
+    const [Refresh , setRefresh ] = useState(true)
     const [dark, setDark] = useRecoilState(darkModeState);
 
     const toggleDarkMode = () => {
@@ -44,7 +44,7 @@ function Navbar() {
 
     return (
         <div className=' bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white md:p-2'>
-            {additem ? <Additem setadditem={setadditem} url={`${DATABASE_URL}/account`}/> : ''}
+            {additem ? <Additem setadditem={setadditem} url={`${DATABASE_URL}/account`} Refresh={Refresh} setRefresh={setRefresh}/> : ''}
             <div className='w-full flex justify-between p-2 md:p-5'>
                 <div className=' flex gap-4 md:gap-10 lg:gap-16 items-center '>
                     <button className='text-md md:text-xl flex items-center gap-1 lg:text-3xl font-extrabold group relative md:pointer-events-none'>

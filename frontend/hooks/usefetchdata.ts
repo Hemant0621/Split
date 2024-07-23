@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { loadingState } from './darkmode';
 
-const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
+const useFetchData = (type : String, startdate : Date, enddate : Date , Refresh : boolean) => {
     const [loading, setLoading] = useRecoilState(loadingState);
     const [data, setData] = useState([]);
     const [daysArray, setDaysArray] = useState([]);
@@ -21,7 +21,6 @@ const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
                         authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                console.log(response.data)
                 setData(response.data.data);
                 setDaysArray(response.data.daysArray);
                 setLoading(false);
@@ -31,7 +30,7 @@ const useFetchData = (type : String, startdate : Date, enddate : Date ) => {
         };
 
         fetchData();
-    }, [type]);
+    }, [type , Refresh]);
 
     return { loading, data, daysArray };
 };

@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { loadingState } from './darkmode';
 import { DATABASE_URL } from '@/config';
 
-const useTrips = (type: String) => {
+const useTrips = (type: String , Refresh : boolean) => {
     const [Avg, setAvg] = useState('loading...')
     const [Total, setTotal] = useState('loading...')
     const [Count, setCount] = useState('loading...')
@@ -16,7 +16,6 @@ const useTrips = (type: String) => {
     useEffect(() => {
 
         async function result() {
-
             const response = await axios.get(`${DATABASE_URL}/party`, {
                 params: {
                     type
@@ -26,24 +25,24 @@ const useTrips = (type: String) => {
                 }
             })
             if (response.data.results) {
-                console.log(response.data)
                 settrips(response.data.results)
-                setdata(response.data.category)
+                response.data.category[0]?setdata(response.data.category):'';
                 setAvg(response.data.avg)
                 setTotal(response.data.total)
                 setCount(response.data.count)
                 setExpensive(response.data.expensive)
             }
             else {
+                settrips([])
                 setAvg('0')
                 setTotal('0')
                 setCount('0')
-                setExpensive('0')
+                setExpensive('None')
             }
         }
 
         result()
-    }, [type])
+    }, [type , Refresh])
 
     return {
         Avg,

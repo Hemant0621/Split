@@ -10,6 +10,14 @@ router.get('/trip', authMiddleware, async (req, res) => {
     try {
 
         const Id = req.query.id
+
+        const check = await Party.findOne({
+            userId:req.userId
+        })
+        if(!check){
+            return res.send("user not found")
+        }
+
         const [parties, group] = await Promise.all([Party.find({
             Id
         }), Partygroup.findOne({
@@ -45,7 +53,7 @@ router.get('/', authMiddleware, async (req, res) => {
         const userId = new mongoose.Types.ObjectId(req.userId)
         const type = req.query.type
 
-        const [parties, avg_result, total_result, count_result , expensive_result] = await Promise.all([
+        const [parties, avg_result, total_result, count_result, expensive_result] = await Promise.all([
             Party.find({ userId: req.userId }),
             Party.aggregate([
                 {
@@ -92,7 +100,7 @@ router.get('/', authMiddleware, async (req, res) => {
                 {
                     $group: {
                         _id: null,
-                        count: { $count: { } }
+                        count: { $count: {} }
                     }
                 }
             ]),
@@ -106,26 +114,30 @@ router.get('/', authMiddleware, async (req, res) => {
                 {
                     $group: {
                         _id: "$expenses.category",
-                        total: { $sum : "$expenses.price"  }
+                        total: { $sum: "$expenses.price" }
                     }
                 },
                 {
-                    $sort : {
-                        total : -1
+                    $match: {
+                        total: { $gt: "$total" }
                     }
                 },
                 {
-                    $limit : 1
+                    $sort: {
+                        total: -1
+                    }
+                },
+                {
+                    $limit: 1
                 }
 
             ])
         ])
 
-        const avg = parseFloat(avg_result[0].total).toFixed(2)
-        const total = parseFloat(total_result[0].total).toFixed(2)
-        const count = count_result[0].count
-        const expensive = expensive_result[0]._id
-
+        const avg = count_result[0] ? parseFloat(avg_result[0].total).toFixed(2) : '0'
+        const total = count_result[0] ? parseFloat(total_result[0].total).toFixed(2) : '0'
+        const count = count_result[0] ? count_result[0].count : '0'
+        const expensive = count_result[0] ? expensive_result[0] ? expensive_result[0]._id : 'None' : 'None'
         if (!parties || parties.length === 0) {
             return res.send({ error: 'Party not found' });
         }
@@ -170,7 +182,7 @@ router.get('/', authMiddleware, async (req, res) => {
                 }
             ]);
 
-            return res.send({ results, category, avg, total , count , expensive });
+            return res.send({ results, category, avg, total, count, expensive });
         }
         else {
             const category = await Party.aggregate([
@@ -200,7 +212,7 @@ router.get('/', authMiddleware, async (req, res) => {
                 }
             ]);
 
-            return res.send({ results, category, avg, total , count, expensive });
+            return res.send({ results, category, avg, total, count, expensive });
 
         }
     } catch (error) {
@@ -463,7 +475,6 @@ router.get('/settle', authMiddleware, async (req, res) => {
         const payers = [];
         const receivers = [];
 
-        // Separate payers and receivers
         for (const [user, balance] of Object.entries(balances)) {
             if (balance > 0) {
                 receivers.push({ user, amount: balance });
@@ -474,7 +485,6 @@ router.get('/settle', authMiddleware, async (req, res) => {
 
         const transactions = [];
 
-        // Match payers with receivers
         while (payers.length > 0 && receivers.length > 0) {
             const payer = payers[0];
             const receiver = receivers[0];
@@ -491,10 +501,10 @@ router.get('/settle', authMiddleware, async (req, res) => {
             receiver.amount -= settledAmount;
 
             if (payer.amount === 0) {
-                payers.shift(); // Remove settled payer
+                payers.shift();
             }
             if (receiver.amount === 0) {
-                receivers.shift(); // Remove settled receiver
+                receivers.shift();
             }
         }
 
@@ -514,6 +524,47 @@ router.get('/settle', authMiddleware, async (req, res) => {
     const transactions = await settleBalances(balances);
 
     return res.send(transactions)
+})
+
+router.delete('/party_group', async (req, res) => {
+    try {
+
+        const Id = req.query.Id;
+        const deleted = await Promise.all([
+            Partygroup.deleteOne({
+                Id
+            }),
+            Party.deleteMany({
+                Id
+            })
+        ])
+        
+        res.send("deleted")
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.delete('/party',authMiddleware,async (req, res) => {
+    try {
+
+        const Id = req.query.Id;
+        if(Id==req.userId){
+            return res.send("can't delete")
+        }
+        console.log(Id , req.userId)
+        const deleted = await Party.deleteOne({
+            userId : Id
+        })
+
+        if(deleted){
+            return res.send("deleted")
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 module.exports = router

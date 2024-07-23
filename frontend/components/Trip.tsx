@@ -9,7 +9,8 @@ function Trip() {
     const [code, setcode] = useState('')
     const [type, settype] = useState('avg')
     const [destination, setdestination] = useState('')
-    const { Avg,Total,Count,Expensive,trips,data } = useTrips(type);
+    const [Refresh,setRefresh] = useState(true)
+    const { Avg, Total, Count, Expensive, trips, data } = useTrips(type,Refresh);
     useCategoryECharts(chartRef, data)
 
     return (
@@ -24,7 +25,7 @@ function Trip() {
                                 </div>
                                 <div className=' w-2/3  h-full flex flex-col justify-center'>
                                     <h1 className=' font-bold text-[3.5vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Average trip Expense</h1>
-                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{Avg}</h1>
+                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>₹{Avg}</h1>
                                 </div>
                             </div>
                             <div className='h-full w-[49%] bg-white dark:bg-[#353148] rounded-lg border border-black flex items-center justify-around'>
@@ -33,7 +34,7 @@ function Trip() {
                                 </div>
                                 <div className=' w-2/3  h-full flex flex-col justify-center'>
                                     <h1 className=' font-bold text-[3.5vw] md:text-[1.4vw] text-slate-800 dark:text-white'>Total expense</h1>
-                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>{Total}</h1>
+                                    <h1 className='font-SourceCodePro font-bold text-[3.5vw] md:text-[2vw] lg:text-[1.2vw] text-slate-400'>₹{Total}</h1>
                                 </div>
                             </div>
                         </div>
@@ -117,15 +118,15 @@ function Trip() {
                 </div>
             </div>
             <div className=' md:h-[65%] flex flex-col md:flex-row justify-between '>
-
                 <div className=' w-full md:w-[65%] bg-white dark:bg-[#353148] rounded-xl md:rounded-2xl h-full border border-black'>
                     <h1 className='w-full text-center font-bold text-base md:text-lg lg:text-2xl pt-2'>Last 10 Trips</h1>
                     <div className='w-full h-full flex flex-col gap-3 px-1 md:px-5  scrollbar scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-black dark:scrollbar-thumb-white scrollbar-track-[#f3aa4e] dark:scrollbar-track-[#111820] '>
                         <div className=' px-2 md:px-5 py-2 flex w-full justify-between border-4 border-white dark:border-[#353148] border-b-[#f3aa4e] dark:border-b-[#111820] '>
-                            <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-left '>Location</h1>
-                            <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-center '>Code</h1>
-                            <h1 className=' w-1/4 font-semibold font-Clash text-sm md:text-base text-center '>total expense</h1>
-                            <h1 className=' w-1/4 font-semibold font-Clash text-base md:text-lg text-center '>Date</h1>
+                            <h1 className=' w-1/5 font-semibold font-Clash text-base md:text-lg text-left '>Location</h1>
+                            <h1 className=' w-1/5 font-semibold font-Clash text-base md:text-lg text-center '>Code</h1>
+                            <h1 className=' w-1/5 font-semibold font-Clash text-sm md:text-base text-center '>total expense</h1>
+                            <h1 className=' w-1/5 font-semibold font-Clash text-base md:text-lg text-center '>Date</h1>
+                            <h1 className=' w-1/5 font-semibold font-Clash text-base md:text-lg text-center '>Delete</h1>
                         </div>
 
                         <div className=' px-2 md:px-5 scrollbar-thin h-[75%] py-1 overflow-y-auto flex flex-col gap-2 '>
@@ -143,13 +144,28 @@ function Trip() {
                                 _id: string
 
                             }) => (
-                                <div key={trip._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300  cursor-pointer border border-black'
-                                    onClick={() => location.href = `/Trip/${trip.Id}`}
-                                >
-                                    <h1 className='w-1/4 text-left font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].location}</h1>
-                                    <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.Id}</h1>
-                                    <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].total.$numberDecimal.toString()}</h1>
-                                    <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{new Date(trip.partyGroups[0].date).toLocaleDateString()}</h1>
+                                <div key={trip._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300  cursor-pointer border border-black'>
+                                    <div className='w-4/5 flex justify-between ' onClick={() => location.href = `/Trip/${trip.Id}`}>
+                                        <h1 className='w-1/4 text-left font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].location}</h1>
+                                        <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.Id}</h1>
+                                        <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{trip.partyGroups[0].total.$numberDecimal.toString()}</h1>
+                                        <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{new Date(trip.partyGroups[0].date).toLocaleDateString()}</h1>
+                                    </div>
+                                    <button className='w-1/5 text-center font-medium text-xs md:text-sm break-words px-1 bg-black text-white rounded-lg transition-transform transform hover:scale-110 py-1'
+                                    onClick={async()=>{
+                                        const check = confirm(`DO you want to delete your ${trip.partyGroups[0].location} Trip `)
+                                        if(check){
+                                            const response = await axios.delete(`${DATABASE_URL}/party/party_group`,{
+                                                params : {
+                                                    Id:trip.Id
+                                                }
+                                            })
+                                            if(response.data=="deleted"){
+                                                setRefresh(!Refresh)
+                                            }
+                                        }
+                                    }}
+                                    >Delete</button>
                                 </div>
                             )) : <div className='text-center font-medium text-base md:text-xl'>No Trips yet</div>}
 
@@ -158,7 +174,7 @@ function Trip() {
                 </div>
 
                 <div className='relative w-full md:w-[34%] h-[30rem] md:h-full bg-white rounded-xl p-2 mt-5 md:mt-0 border border-black flex justify-center items-center'>
-                    {data[0].value == 0
+                    {data[0].value==0
                         ?
                         <div className='flex justify-center items-center h-full w-full'>
                             <div className="inline-flex items-center px-4 py-2 bg-[#f3aa4e] dark:bg-[#111820] hover:bg-[#ff9b20] dark:hover:bg-[#090c10] dark:text-white transition ease-in-out delay-75 text-black text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110 cursor-pointer">

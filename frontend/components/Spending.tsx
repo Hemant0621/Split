@@ -37,11 +37,10 @@ function Spending() {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-
+            console.log(month.data)
             settotal(total.data.total)
             setmonth(month.data.total)
-            console.log(month.data.triptotal)
-            settrip(month.data.triptotal.$numberDecimal)
+            settrip(month.data.triptotal)
             setloading(false)
         }
 
