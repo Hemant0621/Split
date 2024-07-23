@@ -40,7 +40,7 @@ function Spending() {
             console.log(month.data)
             settotal(total.data.total)
             setmonth(month.data.total)
-            settrip(month.data.triptotal.$numberDecimal)
+            settrip(month.data.triptotal)
             setloading(false)
         }
 

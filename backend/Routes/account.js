@@ -97,7 +97,7 @@ router.post('/amount', authMiddleware, async (req, res) => {
             }
         ])
 
-        const triptotal = trip.length > 0 ? trip[0].total : { '$numberDecimal': 0 }
+        const triptotal = trip.length > 0 ? trip[0].total : 0
 
         return res.send({
             total,
