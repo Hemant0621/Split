@@ -13,6 +13,7 @@ function Sidebar() {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
+            console.log(response.data)
             setUserId(response.data.user._id)
         }
 
@@ -26,7 +27,7 @@ function Sidebar() {
                     <img className='w-52 dark:invert' src='/Logo.png' alt='' />
                     <a href="/"><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10] border border-black'>Home</h1></a>
                     <a href="/Trip"><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10] border border-black'>Trips</h1></a>
-                    <a href={`${userId}`}><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10] border border-black'>profile</h1></a>
+                    <a href={userId}><h1 className=' font-medium px-4  text-xl  p-2 bg-[#f3aa4e] dark:bg-[#111820] rounded-lg hover:bg-[#ff9b20] dark:hover:bg-[#090c10] border border-black'>profile</h1></a>
                 </div>
                 <div className='flex gap-1 justify-center items-center w-full py-2  bg-[#f3aa4e] dark:bg-[#111820] hover:bg-[#ff9b20] dark:hover:bg-[#090c10] rounded-lg cursor-pointer border border-black'
                     onClick={() => {

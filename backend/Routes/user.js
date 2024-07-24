@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const zod = require("zod");
-const { User, Account } = require("../db");
+const { User, Account, Party } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const { authMiddleware } = require("../middleware");
@@ -50,8 +50,8 @@ router.post("/signup", async (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         avatar: 0,
-        contact:'Your Contact',
-        UPI:'Your UPI ID'
+        contact: 'Your Contact',
+        UPI: 'Your UPI ID'
     })
     const userId = user._id;
 
@@ -106,9 +106,9 @@ router.put("/", authMiddleware, async (req, res) => {
 
     const check = await User.findOneAndUpdate({
         _id: req.userId
-    },req.body)
+    }, req.body)
 
-    if(check){
+    if (check) {
         return res.json({
             message: "Updated successfully"
         })
@@ -117,11 +117,10 @@ router.put("/", authMiddleware, async (req, res) => {
 
 router.get('/', authMiddleware, async (req, res) => {
     try {
-        
-        const user = await User.findById(req.userId,{
-            password : 0,
-            _id : 0,
-            __v : 0
+
+        const user = await User.findById(req.userId, {
+            password: 0,
+            __v: 0
         })
 
         res.send({
@@ -139,25 +138,47 @@ router.get("/bulk", authMiddleware, async (req, res) => {
     const filter = req.query.filter || "";
 
     const users = await User.find({
-        $or: [{
-            firstName: {
-                "$regex": filter
+        "$or": [{
+            "firstName": {
+                "$regex": filter, "$options": "i"
             }
-        }, {
-            lastName: {
-                "$regex": filter
+        },
+        {
+            "lastName": {
+                "$regex": filter, "$options": "i"
+            }
+        },
+        {
+            "username": {
+                "$regex": filter, "$options": "i"
             }
         }]
-    })
+    }).limit(10)
 
     res.json({
         user: users.map(user => ({
-            Email: user.Email,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            username: user.username.toLowerCase(),
             _id: user._id
         }))
     })
+})
+
+router.delete('/', authMiddleware, async (req, res) => {
+
+    try {
+        const response = await Promise.all([
+            User.deleteOne({
+                _id: req.userId
+            }),
+            Party.deleteOne({
+                userId: req.userId
+            })
+        ])
+        return res.send({ message: "Deleted Successfully" })
+
+    } catch (error) {
+        res.status(404).send("somthing went wrong")
+    }
 })
 
 module.exports = router;
