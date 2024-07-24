@@ -49,7 +49,9 @@ router.post("/signup", async (req, res) => {
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        avatar: 0
+        avatar: 0,
+        contact:'Your Contact',
+        UPI:'Your UPI ID'
     })
     const userId = user._id;
 
@@ -99,36 +101,27 @@ router.post("/signin", async (req, res) => {
     })
 })
 
-const updateBody = zod.object({
-    password: zod.string().optional(),
-    firstName: zod.string().optional(),
-    lastName: zod.string().optional(),
-    avatar: zod.number().optional()
-})
 
 router.put("/", authMiddleware, async (req, res) => {
-    const { success } = updateBody.safeParse(req.body)
-    if (!success) {
-        res.status(411).json({
-            message: "Error while updating information"
-        })
-    }
 
     const check = await User.findOneAndUpdate({
         _id: req.userId
     },req.body)
 
-
-    res.json({
-        message: "Updated successfully"
-    })
+    if(check){
+        return res.json({
+            message: "Updated successfully"
+        })
+    }
 })
 
 router.get('/', authMiddleware, async (req, res) => {
     try {
         
         const user = await User.findById(req.userId,{
-            password : 0
+            password : 0,
+            _id : 0,
+            __v : 0
         })
 
         res.send({
