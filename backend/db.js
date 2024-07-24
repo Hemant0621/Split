@@ -34,7 +34,20 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         maxLength: 50
-    }
+    },
+    avatar: {
+        type:String,
+        required:true
+    },
+    contact: {
+        type:String,
+        required:true
+    },
+    UPI: {
+        type:String,
+        required:true
+    },
+
 });
 
 const PartySchema = new mongoose.Schema({

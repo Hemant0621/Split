@@ -12,9 +12,10 @@ type Dark = {
 }
 
 
-function Navbar() {
+function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
 
     const [username, setusername] = useState('')
+    const [avatar, setAvatar] = useState(0)
     const [additem, setadditem] = useState(false)
     const [Refresh , setRefresh ] = useState(true)
     const [dark, setDark] = useRecoilState(darkModeState);
@@ -37,10 +38,11 @@ function Navbar() {
                 }
             })
             setusername(response.data.user.username)
+            setAvatar(response.data.user.avatar)
         }
 
         result()
-    }, [])
+    }, [RefreshAvatar])
 
     return (
         <div className=' bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white md:p-2'>
@@ -87,7 +89,7 @@ function Navbar() {
                     </button>
                 </div>
                 <div className='flex gap-3 md:gap-5 lg:gap-6 items-center'>
-                    <img className='rounded-full hidden md:block w-14 transition-transform transform hover:scale-110 cursor-pointer' src='/student.gif' alt='' />
+                    <img className='rounded-full hidden md:block w-14 transition-transform transform hover:scale-110 cursor-pointer border border-black ' src={`/avatar/avatar${avatar}.gif`} alt='' />
                     <div className=' font-bold text-mono text-sm md:text-xl lg:text-2xl'>{username}</div>
                     <img className=' w-8 md:w-10 cursor-pointer' src={!dark ? "/night-mode.png" : "/brightness.png"} alt=''
                         onClick={toggleDarkMode}

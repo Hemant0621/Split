@@ -49,6 +49,7 @@ router.post("/signup", async (req, res) => {
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        avatar: 0
     })
     const userId = user._id;
 
@@ -102,6 +103,7 @@ const updateBody = zod.object({
     password: zod.string().optional(),
     firstName: zod.string().optional(),
     lastName: zod.string().optional(),
+    avatar: zod.number().optional()
 })
 
 router.put("/", authMiddleware, async (req, res) => {
@@ -112,9 +114,10 @@ router.put("/", authMiddleware, async (req, res) => {
         })
     }
 
-    await User.updateOne(req.body, {
-        id: req.userId
-    })
+    const check = await User.findOneAndUpdate({
+        _id: req.userId
+    },req.body)
+
 
     res.json({
         message: "Updated successfully"
@@ -124,7 +127,9 @@ router.put("/", authMiddleware, async (req, res) => {
 router.get('/', authMiddleware, async (req, res) => {
     try {
         
-        const user = await User.findById(req.userId)
+        const user = await User.findById(req.userId,{
+            password : 0
+        })
 
         res.send({
             user
