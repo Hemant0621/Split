@@ -9,11 +9,13 @@ function Sidebar() {
     useEffect(() => {
         async function user() {
             const response = await axios.get(`${DATABASE_URL}/user`, {
+                params:{
+                    userId:'admin'
+                },
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            console.log(response.data)
             setUserId(response.data.user._id)
         }
 

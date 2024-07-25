@@ -32,7 +32,6 @@ function Signincomponent() {
                                     "Content-Type": "application/json",
                                 }
                             })
-                            console.log(response.data)
                             if (response.data.token) {
                                 localStorage.setItem('token', response.data.token)
                                 location.href='/'

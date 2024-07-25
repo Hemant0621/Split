@@ -1,6 +1,7 @@
 import { DATABASE_URL } from '@/config'
 import axios from 'axios'
 import { Span } from 'next/dist/trace'
+import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
@@ -17,8 +18,10 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
 
     const avatar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
     const [Active, setActive] = useState(0)
+    const [admin, setadmin] = useState(false)
+    const userId = useParams().user
     const [users, setusers] = useState([])
-    const [filter, setfilter] = useState('')
+    const [filter, setfilter] = useState('zzzzzzzzz')
     const [Cpassword, setCpassword] = useState('0')
     const [password, setpassword] = useState('0')
     const [change, setchange] = useState(false)
@@ -39,15 +42,18 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
     useEffect(() => {
         async function result() {
             const response = await axios.get(`${DATABASE_URL}/user`, {
+                params: {
+                    userId
+                },
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-
             setEdit(false)
             setchange(false)
             setActive(response.data.user.avatar)
             setuser(response.data.user)
+            setadmin(Boolean(response.data.edit))
         }
 
         result()
@@ -75,7 +81,7 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
                 <div className='absolute -left-10 -top-10 cursor-pointer hidden lg:block'>
                     <div className='relative h-full group w-full bg-white rounded-full border-black border-2 '>
                         <img className='h-28 rounded-full group-hover:opacity-45 ' src={`/avatar/avatar${Active}.gif`} />
-                        <button className='absolute top-0 z-10 w-full h-full group/avatar flex justify-center items-center rounded-full border'>
+                        {admin ? <button className='absolute top-0 z-10 w-full h-full group/avatar flex justify-center items-center rounded-full border'>
                             <img className='opacity-0 group-hover:opacity-100  h-10 ' src='/edit.png' />
                             <div className='p-3 absolute border-black border-2 rounded-xl top-10 -right-72 w-80 bg-[#f3aa4e] dark:bg-[#111820] hidden group-focus-within/avatar:block '>
                                 <div className=' w-full  grid grid-cols-4 grid-flow-row gap-2'>
@@ -96,7 +102,7 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
                                     ))}
                                 </div>
                             </div>
-                        </button>
+                        </button> : ""}
                     </div>
                 </div>
 
@@ -106,28 +112,29 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
                         <div className="block lg:hidden rounded-full shadow-xl mx-auto h-48 w-48 bg-cover bg-center ">
                             <div className='relative h-full group w-full rounded-full border-black border-4'>
                                 <img className='h-full rounded-full group-hover:opacity-45 ' src={`/avatar/avatar${Active}.gif`} />
-                                <button className='absolute top-0 z-10 w-full h-full group/avatar flex justify-center items-center rounded-full border'>
-                                    <img className='opacity-0 group-hover:opacity-100  h-10 ' src='/edit.png' />
-                                    <div className='p-3 absolute border-black border-2 rounded-xl top-10 bottom-0 w-80 min-h-48 overflow-y-auto bg-[#f3aa4e] dark:bg-[#111820] hidden group-focus-within/avatar:block '>
-                                        <div className=' w-full  grid grid-cols-4 grid-flow-row gap-2'>
-                                            {avatar.map((index) => (
-                                                <img key={index} className='h-16 transition-transform transform hover:scale-110 rounded-full' src={`/avatar/avatar${index}.gif`} alt=""
-                                                    onClick={async () => {
-                                                        setActive(index)
-                                                        const response = await axios.put(`${DATABASE_URL}/user`, {
-                                                            avatar: index
-                                                        }, {
-                                                            headers: {
-                                                                authorization: `Bearer ${localStorage.getItem('token')}`
-                                                            }
-                                                        })
-                                                        setRefreshAvatar((a: boolean) => !a)
-                                                    }}
-                                                />
-                                            ))}
+                                {admin ?
+                                    <button className='absolute top-0 z-10 w-full h-full group/avatar flex justify-center items-center rounded-full border'>
+                                        <img className='opacity-0 group-hover:opacity-100  h-10 ' src='/edit.png' />
+                                        <div className='p-3 absolute border-black border-2 rounded-xl top-10 bottom-0 w-80 min-h-48 overflow-y-auto bg-[#f3aa4e] dark:bg-[#111820] hidden group-focus-within/avatar:block '>
+                                            <div className=' w-full  grid grid-cols-4 grid-flow-row gap-2'>
+                                                {avatar.map((index) => (
+                                                    <img key={index} className='h-16 transition-transform transform hover:scale-110 rounded-full' src={`/avatar/avatar${index}.gif`} alt=""
+                                                        onClick={async () => {
+                                                            setActive(index)
+                                                            const response = await axios.put(`${DATABASE_URL}/user`, {
+                                                                avatar: index
+                                                            }, {
+                                                                headers: {
+                                                                    authorization: `Bearer ${localStorage.getItem('token')}`
+                                                                }
+                                                            })
+                                                            setRefreshAvatar((a: boolean) => !a)
+                                                        }}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                </button>
+                                    </button> : ""}
                             </div>
                         </div>
                         <h1 className="text-3xl font-bold pt-8 lg:pt-0" >{
@@ -245,34 +252,33 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
 
                             </div>
                         :
-                        <div className='mt-10'>
+                        admin ? <div className='mt-10'>
                             <h1 className='font-bold text-xl'>Search User</h1>
-                            <div className='w-full max-w-md p-2 bg-white rounded-lg font-mono '>
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="unique-input"
+                            <div className='w-full max-w-md p-2 bg-white dark:bg-[#353148] rounded-lg font-mono '>
+                                <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="unique-input"
                                 >Username</label>
                                 <div className='flex gap-2 items-start w-full '>
                                     <div className='relative w-full group'>
                                         <input
-                                            className="text-sm custom-input w-full px-4 py-2 border border-gray-300 rounded-t-lg shadow-sm transition duration-300 ease-in-out transform  focus:outline-blue-300 hover:shadow-lg hover:border-blue-300 bg-gray-100"
+                                            className="text-sm custom-input w-full px-4 py-2 border dark:text-black border-gray-300 rounded-t-lg shadow-sm transition duration-300 ease-in-out transform  focus:outline-blue-300 hover:shadow-lg hover:border-blue-300 bg-gray-100"
                                             placeholder="Enter text here"
                                             type="text"
                                             id="unique-input"
-                                            onChange={(e)=>setfilter(e.target.value)}
+                                            onChange={(e) => setfilter(e.target.value)}
                                         />
-                                        <div className=' w-full hidden group-focus-within:block h-28 border-2 border-black rounded-b-lg overflow-y-auto'>
-                                            {users.map((user:{username:string,_id:string})=>(
+                                        <div className=' w-full hidden group-hover:block h-28 border-2 bg-white dark:text-black border-black rounded-b-lg overflow-y-auto'>
+                                            {users.map((user: { username: string, _id: string }) => (
                                                 <div key={user._id} className='px-2 py-1 font-medium font-mono cursor-pointer'
-                                                onClick={()=>{
-                                                    location.href=user._id
-                                                }}
+                                                    onClick={() => {
+                                                        location.href = user._id
+                                                    }}
                                                 >{user.username}</div>
                                             ))}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
+                        </div> : ""
                     }
 
                     {edit
@@ -345,11 +351,11 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
                         ""}
                 </div>
 
-                <div className='absolute top-5 right-5 '><img className='h-10 cursor-pointer rounded-full  ' src="/edit.gif" alt=""
+                {admin ? <div className='absolute top-5 right-5 '><img className='h-10 cursor-pointer rounded-full  ' src="/edit.gif" alt=""
                     onClick={() => {
                         setEdit(true)
                     }}
-                /></div>
+                /></div> : ""}
             </div>
         </div>
     )

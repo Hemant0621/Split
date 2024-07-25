@@ -139,7 +139,9 @@ function Party() {
                 userId: string
 
               }) => (
-                <div key={party._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300  cursor-pointer border border-black'>
+                <div key={party._id} className='flex justify-between w-full bg-[#f3aa4e] dark:bg-[#111820] rounded-lg p-2 md:p-3 transition-transform transform hover:scale-105 duration-300  cursor-pointer border border-black'
+                onClick={()=>location.href=`/${party.userId}`}
+                >
                   <h1 className='w-1/4 text-left font-medium text-xs md:text-sm break-words px-1'>{`${party.user[0].firstName}  ${party.user[0].lastName}`}</h1>
                   <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{party.total.$numberDecimal}</h1>
                   <h1 className='w-1/4 text-center font-medium text-xs md:text-sm break-words px-1'>{party.balance.$numberDecimal}</h1>

@@ -118,13 +118,17 @@ router.put("/", authMiddleware, async (req, res) => {
 router.get('/', authMiddleware, async (req, res) => {
     try {
 
-        const user = await User.findById(req.userId, {
+        const userId = req.query.userId=='admin'?req.userId:req.query.userId;
+        let edit = true
+        if(userId!=req.userId){
+            edit=false
+        }
+        const user = await User.findById(userId, {
             password: 0,
             __v: 0
         })
-
         res.send({
-            user
+            user,edit
         })
     } catch (error) {
         res.send({

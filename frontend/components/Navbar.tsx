@@ -19,6 +19,7 @@ function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
     const [additem, setadditem] = useState(false)
     const [Refresh , setRefresh ] = useState(true)
     const [dark, setDark] = useRecoilState(darkModeState);
+    const [userId , setUserId] = useState('')
 
     const toggleDarkMode = () => {
         if (!dark) {
@@ -33,12 +34,16 @@ function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
     useEffect(() => {
         async function result() {
             const response = await axios.get(`${DATABASE_URL}/user`, {
+                params:{
+                    userId:'admin'
+                },
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
             setusername(response.data.user.username)
             setAvatar(response.data.user.avatar)
+            setUserId(response.data.user._id)
         }
 
         result()
@@ -56,7 +61,7 @@ function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
                             <div className='flex flex-col px-2 gap-3 pt-5 '>
                                 <a href="/"><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>Home</h1></a>
                                 <a href="/Trip"><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>Trips</h1></a>
-                                <a href=""><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>profile</h1></a>
+                                <a href={userId}><h1 className=' font-medium  text-lg  w-full bg-white dark:bg-[#604083] rounded-lg '>profile</h1></a>
                             </div>
                             <div className='flex gap-1 justify-center items-center px-1 py-1 mx-2  bg-white dark:bg-[#604083] rounded-lg '
                                 onClick={() => {
@@ -89,8 +94,8 @@ function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
                     </button>
                 </div>
                 <div className='flex gap-3 md:gap-5 lg:gap-6 items-center'>
-                    <img className='rounded-full hidden md:block w-14 transition-transform transform hover:scale-110 cursor-pointer border border-black ' src={`/avatar/avatar${avatar}.gif`} alt='' />
-                    <div className=' font-bold text-mono text-sm md:text-xl lg:text-2xl'>{username}</div>
+                    <img className='rounded-full hidden md:block w-14 transition-transform transform hover:scale-110 cursor-pointer border border-black ' src={`/avatar/avatar${avatar}.gif`} alt='' onClick={()=>location.href = `/${userId}`} />
+                    <div className=' font-bold text-mono text-sm md:text-xl lg:text-2xl cursor-pointer' onClick={()=>location.href = `/${userId}`}>{username}</div>
                     <img className=' w-8 md:w-10 cursor-pointer' src={!dark ? "/night-mode.png" : "/brightness.png"} alt=''
                         onClick={toggleDarkMode}
                     />
