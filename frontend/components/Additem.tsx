@@ -26,7 +26,7 @@ function Additem({ setadditem , url , Refresh , setRefresh}: { setadditem: Funct
 
     return (
         <div className=' absolute left-0 top-0 w-screen h-screen flex items-center justify-center bg-opacity-80 bg-slate-500 z-10 border border-black '>
-            {show ? <Message Heading={"Successfull"} message={"item added Successfully"} /> : ""}
+            {show && <Message Heading={"Successfull"} message={"item added Successfully"} /> }
             <button className='absolute top-5 right-5 md:top-10 md:right-10' onClick={handleclose}>
                 <img className=' w-9 md:w-12' src="/cancel.png" alt="" />
             </button>

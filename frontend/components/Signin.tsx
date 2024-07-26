@@ -31,14 +31,12 @@ function Signincomponent() {
                                     "Access-Control-Allow-Origin": "*",
                                     "Content-Type": "application/json",
                                 }
-                            })
-                            if (response.data.token) {
-                                localStorage.setItem('token', response.data.token)
+                            }).catch((error)=>{
+                                alert(error.response.data.message)
+                            }).then((response)=>{
+                                localStorage.setItem('token', response?.data.token)
                                 location.href='/'
-                            }
-                            else {
-                                alert(response.data.message)
-                            }
+                            })
                         }}>Sign In</button>
                         <a href="/signup" className="text-blue-500 hover:underline">Register for new user?</a>
                     </div>

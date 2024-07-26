@@ -94,8 +94,8 @@ function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
                     </button>
                 </div>
                 <div className='flex gap-3 md:gap-5 lg:gap-6 items-center'>
-                    <img className='rounded-full hidden md:block w-14 transition-transform transform hover:scale-110 cursor-pointer border border-black ' src={`/avatar/avatar${avatar}.gif`} alt='' onClick={()=>location.href = `/${userId}`} />
-                    <div className=' font-bold text-mono text-sm md:text-xl lg:text-2xl cursor-pointer' onClick={()=>location.href = `/${userId}`}>{username}</div>
+                    <img className='rounded-full  w-10 md:w-14 transition-transform transform hover:scale-110 cursor-pointer border border-black ' src={`/avatar/avatar${avatar}.gif`} alt='' onClick={()=>location.href = `/${userId}`} />
+                    <div className=' font-bold hidden md:block text-mono text-sm md:text-xl lg:text-2xl cursor-pointer' onClick={()=>location.href = `/${userId}`}>{username}</div>
                     <img className=' w-8 md:w-10 cursor-pointer' src={!dark ? "/night-mode.png" : "/brightness.png"} alt=''
                         onClick={toggleDarkMode}
                     />

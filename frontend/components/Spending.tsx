@@ -6,9 +6,9 @@ import { useRecoilState } from 'recoil'
 
 function Spending() {
 
-    const [total, settotal] = useState('loading...')
-    const [month, setmonth] = useState('loading...')
-    const [trip, settrip] = useState('loading...')
+    const [total, settotal] = useState('...')
+    const [month, setmonth] = useState('...')
+    const [trip, settrip] = useState('...')
     const today = new Date()
     const [startdate, setSartDate] = useState(new Date(new Date().getDate()))
     const [enddate, setEndDate] = useState(today)
@@ -62,7 +62,7 @@ function Spending() {
                     <h1 className=' font-bold text-[2vw] md:text-[1.2vw] text-slate-800 dark:text-white'>Total Spendings</h1>
                     <h1 className='font-SourceCodePro font-bold text-[3vw] md:text-[1.5vw] lg:text-[1.2vw] text-slate-400'>₹{total}</h1>
                 </div>
-                <button className='absolute top-0 md:top-1 right-1 md:right-3 text-[1.5vw] md:text-[1.2vw] group/main text-end font-medium text-red-600 md:text-slate-400 p-1 cursor-pointer'>
+                <button className='absolute top-0 md:top-1 right-1 md:right-3 text-[1.7vw] md:text-[1.2vw] group/main text-end font-medium text-red-600 md:text-slate-400 p-1 cursor-pointer'>
                     {name}
                     <div className='text-slate-800 z-20 shadow-md shadow-black absolute bg-[#f3aa4e] dark:bg-[#353148] dark:text-white w-32 md:w-40 flex-col gap-3 p-3 items-center left-10 md:-left-10 text-center rounded-lg hidden group-focus-within/main:flex'>
                         <h1 className='bg-white dark:bg-[#090c10] dark:hover:bg-[#1f2a38] hover:bg-[#d1d1d1] rounded-lg w-full text-sm md:text-lg md:px-4 py-2 md:w-36' onClick={() => { setSartDate(new Date(new Date().getDate())); setEndDate(today) ; setname('Lifetime') }} >Lifetime</h1>
