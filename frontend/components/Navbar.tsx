@@ -12,30 +12,44 @@ type Dark = {
 }
 
 
-function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
+function Navbar({ RefreshAvatar }: { RefreshAvatar?: boolean }) {
 
     const [username, setusername] = useState('')
     const [avatar, setAvatar] = useState(0)
     const [additem, setadditem] = useState(false)
-    const [Refresh , setRefresh ] = useState(true)
+    const [Refresh, setRefresh] = useState(true)
     const [dark, setDark] = useRecoilState(darkModeState);
-    const [userId , setUserId] = useState('')
+    const [userId, setUserId] = useState('')
 
     const toggleDarkMode = () => {
+        setDark(!dark)
+        const response = axios.put(`${DATABASE_URL}/user`, {
+            mode : dark?'light':'dark'
+        }, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
         if (!dark) {
             window.document.body.style.backgroundColor = "#111820"
         }
         else {
+            const response = axios.put(`${DATABASE_URL}/user`, {
+                mode : 'dark'
+            }, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
             window.document.body.style.backgroundColor = "#f3aa4e"
         }
-        setDark(!dark)
     };
 
     useEffect(() => {
         async function result() {
             const response = await axios.get(`${DATABASE_URL}/user`, {
-                params:{
-                    userId:'admin'
+                params: {
+                    userId: 'admin'
                 },
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
@@ -51,7 +65,7 @@ function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
 
     return (
         <div className=' bg-[#f3aa4e] dark:bg-[#111820] transition-colors duration-400 ease-linear dark:text-white md:p-2'>
-            {additem ? <Additem setadditem={setadditem} url={`${DATABASE_URL}/account`} Refresh={Refresh} setRefresh={setRefresh}/> : ''}
+            {additem ? <Additem setadditem={setadditem} url={`${DATABASE_URL}/account`} Refresh={Refresh} setRefresh={setRefresh} /> : ''}
             <div className='w-full flex justify-between p-2 md:p-5'>
                 <div className=' flex gap-4 md:gap-10 lg:gap-16 items-center '>
                     <button className='text-md md:text-xl flex items-center gap-1 lg:text-3xl font-extrabold group relative md:pointer-events-none'>
@@ -94,8 +108,8 @@ function Navbar({RefreshAvatar} : {RefreshAvatar? : boolean}) {
                     </button>
                 </div>
                 <div className='flex gap-3 md:gap-5 lg:gap-6 items-center'>
-                    <img className='rounded-full  w-10 md:w-14 transition-transform transform hover:scale-110 cursor-pointer border border-black ' src={`/avatar/avatar${avatar}.gif`} alt='' onClick={()=>location.href = `/${userId}`} />
-                    <div className=' font-bold hidden md:block text-mono text-sm md:text-xl lg:text-2xl cursor-pointer' onClick={()=>location.href = `/${userId}`}>{username}</div>
+                    <img className='rounded-full  w-10 md:w-14 transition-transform transform hover:scale-110 cursor-pointer border border-black ' src={`/avatar/avatar${avatar}.gif`} alt='' onClick={() => location.href = `/${userId}`} />
+                    <div className=' font-bold hidden md:block text-mono text-sm md:text-xl lg:text-2xl cursor-pointer' onClick={() => location.href = `/${userId}`}>{username}</div>
                     <img className=' w-8 md:w-10 cursor-pointer' src={!dark ? "/night-mode.png" : "/brightness.png"} alt=''
                         onClick={toggleDarkMode}
                     />

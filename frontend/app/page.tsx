@@ -3,7 +3,10 @@
 import Dashboard from "@/components/Dashboard";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import { DATABASE_URL } from "@/config";
 import { darkModeState } from "@/hooks/darkmode";
+import axios from "axios";
+import { useEffect } from "react";
 import { RecoilRoot, useRecoilState } from 'recoil';
 
 export default function Home() {
@@ -23,6 +26,27 @@ export default function Home() {
 const MainApp = () => {
 
   const [dark, setDark] = useRecoilState(darkModeState);
+
+  useEffect(() => {
+    async function dark() {
+      const response = await axios.get(`${DATABASE_URL}/user`, {
+        params: {
+          userId: 'admin'
+        },
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      if(response.data.user.mode=='light'){
+        setDark(false)
+      }
+      else if(response.data.user.mode=='dark'){
+        setDark(true)
+      }
+      
+    }
+    dark()
+  })
 
   return (
     <div className={`grid grid-cols-12 w-full md:overflow-y-hidden font-Clash ${dark ? "dark" : ""} transition-colors duration-400 ease-linear bg-[#f3aa4e] dark:bg-[#111820] dark:text-white `}>

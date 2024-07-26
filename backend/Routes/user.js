@@ -52,7 +52,8 @@ router.post("/signup", async (req, res) => {
         lastName: req.body.lastName,
         avatar: 0,
         contact: 'Your Contact',
-        UPI: 'Your UPI ID'
+        UPI: 'Your UPI ID',
+        mode:'light'
     })
     const userId = user._id;
 
@@ -61,7 +62,6 @@ router.post("/signup", async (req, res) => {
     }, JWT_SECRET);
 
     res.json({
-        message: "User created successfully",
         token: token
     })
 })

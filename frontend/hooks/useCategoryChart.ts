@@ -12,7 +12,6 @@ const useCategoryECharts = (chartRef : any , data : [{name : string , value : nu
             }
             const len = data.length-1
             const myChart = echarts.init(chartRef.current);
-            console.log(data)
             myChart.setOption({
                 backgroundColor: 'white',
                 title: {

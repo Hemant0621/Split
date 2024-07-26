@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Spending from './Spending'
 import Spendinggrapgh from './Spendinggrapgh'
-import { useRecoilState } from 'recoil'
-import { loadingState } from '@/hooks/darkmode'
 
 
 

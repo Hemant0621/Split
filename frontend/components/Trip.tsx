@@ -173,7 +173,7 @@ function Trip() {
                     </div>
                 </div>
 
-                <div className='relative w-full md:w-[34%] h-[30rem] md:h-full bg-white rounded-xl p-2 mt-5 md:mt-0 border border-black flex justify-center items-center'>
+                <div className='relative w-full md:w-[34%] h-[30rem] md:h-full bg-white dark:bg-[#353148] rounded-xl p-2 mt-5 md:mt-0 border border-black flex justify-center items-center'>
                     {data[0].value==0
                         ?
                         <div className='flex justify-center items-center h-full w-full'>

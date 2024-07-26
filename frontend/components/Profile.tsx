@@ -29,12 +29,12 @@ function Profile({ setRefreshAvatar }: { setRefreshAvatar: Function }) {
     const [edit, setEdit] = useState(false)
     const [Refresh, setRefresh] = useState(false)
     const [user, setuser] = useState<User>({
-        Email: "loading...",
-        firstName: 'loading...',
+        Email: "...",
+        firstName: '...',
         lastName: '',
-        username: 'loading...',
-        contact: 'loading...',
-        UPI: 'loading...',
+        username: '...',
+        contact: '...',
+        UPI: '...',
         avatar: 0
     })
 
