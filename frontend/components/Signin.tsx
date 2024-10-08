@@ -34,8 +34,10 @@ function Signincomponent() {
                             }).catch((error)=>{
                                 alert(error.response.data.message)
                             }).then((response)=>{
-                                localStorage.setItem('token', response?.data.token)
-                                location.href='/'
+                                if(response?.data.token){
+                                    localStorage.setItem('token', response?.data.token)
+                                    location.href='/'
+                                }
                             })
                         }}>Sign In</button>
                         <a href="/signup" className="text-blue-500 hover:underline">Register for new user?</a>
