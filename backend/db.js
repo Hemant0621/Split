@@ -5,7 +5,7 @@ const { string, boolean } = require('zod');
 mongoose.connect("mongodb+srv://hemantkumar2335h:Hemant12@mydata.wprhwlz.mongodb.net/Splitbill")
 
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({ 
     Email: {
         type: String,
         required: true,
